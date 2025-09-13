@@ -35,7 +35,7 @@ To run this project locally, follow these steps:
 
 2.  **Clone the repository:**
     ```bash
-    git clone https://your-repository-url/grouping-system.git
+    git clone https://github.com/Henry-Hilton/Grouping-System.git
     ```
 
 3.  **Database Setup:**
