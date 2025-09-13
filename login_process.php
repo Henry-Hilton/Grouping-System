@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     // Use a prepared statement to prevent SQL injection
-    $sql = "SELECT username, password, isadmin FROM akun WHERE username = ?";
+    $sql = "SELECT username, password, isadmin, npk_dosen, nrp_mahasiswa FROM akun WHERE username = ?";
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -21,12 +21,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['username'] = $user['username'];
         $_SESSION['isadmin'] = $user['isadmin'];
         
+        // Add other user details to session if needed
+        $_SESSION['npk_dosen'] = $user['npk_dosen'];
+        $_SESSION['nrp_mahasiswa'] = $user['nrp_mahasiswa'];
+        
         // Redirect based on user role
         if ($user['isadmin'] == 1) {
+            // User is an Admin
             header("Location: admin/index.php");
+        } else if ($user['npk_dosen'] !== null) {
+            // User is a Lecturer
+            header("Location: dosen/index.php");
+        } else if ($user['nrp_mahasiswa'] !== null) {
+            // User is a Student
+            header("Location: mahasiswa/index.php");
         } else {
-            // We will add redirects for dosen and mahasiswa here later
-            header("Location: index.php"); // Default redirect
+            // Fallback for any other unknown user type
+            header("Location: login.php?error=unknown_role");
         }
         exit();
 
