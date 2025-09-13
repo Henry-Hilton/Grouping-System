@@ -1,5 +1,6 @@
 <?php
 // admin/delete_mahasiswa.php
+require_once('../partials/check_session.php');
 require_once('../db_connect.php');
 
 // Check if NRP is set in the URL

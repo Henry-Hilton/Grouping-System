@@ -1,0 +1,1 @@
+require_once('../partials/check_session.php');

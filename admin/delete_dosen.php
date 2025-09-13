@@ -1,5 +1,6 @@
 <?php
 // admin/delete_dosen.php
+require_once('../partials/check_session.php');
 require_once('../db_connect.php');
 
 // Check if NPK is set in the URL
