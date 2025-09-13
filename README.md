@@ -55,4 +55,4 @@ To run this project locally, follow these steps:
 ---
 ## Contributor
 
-* [Your Name](https://github.com/Henry-Hilton)
+* [Henry Hilton](https://github.com/Henry-Hilton)
