@@ -12,7 +12,7 @@ $result = $mysqli->query($sql);
 <div class="container">
   <h1>Manage Lecturers</h1>
   <p>Here you can view, add, edit, and delete lecturer records.</p>
-  
+  <a href="add_dosen.php" class="btn-add">Add New Lecturer</a>
   <table class="data-table">
     <thead>
       <tr>
