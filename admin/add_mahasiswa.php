@@ -20,6 +20,19 @@ require_once('../partials/admin_menu.php');
       <input type="text" id="nama" name="nama" class="form-control" required>
     </div>
 
+    <hr>
+    <h4>Create Login Account</h4>
+    
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" class="form-control" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" class="form-control" required>
+    </div>
+
     <div class="form-group">
       <label for="gender">Gender</label>
       <select id="gender" name="gender" class="form-control" required>
