@@ -1,14 +1,21 @@
 <?php
 // admin/manage_mahasiswa.php
 require_once('../partials/check_session.php');
-require_once('../db_connect.php');
+require_once('../classes/Mahasiswa.php'); // Use the Mahasiswa class
+
+// --- Pagination Logic ---
+$mahasiswaHandler = new Mahasiswa();
+$data_per_page = 10; // How many items to show per page
+$total_data = $mahasiswaHandler->getTotalCount();
+$total_pages = ceil($total_data / $data_per_page);
+$current_page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($current_page - 1) * $data_per_page;
+
+// Fetch the data for the current page
+$mahasiswas = $mahasiswaHandler->getAll($data_per_page, $offset);
+
 require_once('../partials/header.php');
 require_once('../partials/admin_menu.php');
-
-// --- PHP Logic to Fetch Data ---
-$sql = "SELECT nrp, nama, angkatan FROM mahasiswa ORDER BY nama ASC";
-$result = $mysqli->query($sql);
-
 ?>
 
 <div class="container">
@@ -28,9 +35,8 @@ $result = $mysqli->query($sql);
     </thead>
     <tbody>
       <?php
-      if ($result && $result->num_rows > 0) {
-        // Loop through the results and display each student in a table row
-        while ($row = $result->fetch_assoc()) {
+      if ($mahasiswas && $mahasiswas->num_rows > 0) {
+        while ($row = $mahasiswas->fetch_assoc()) {
           echo "<tr>";
           echo "<td>" . htmlspecialchars($row['nrp']) . "</td>";
           echo "<td>" . htmlspecialchars($row['nama']) . "</td>";
@@ -42,15 +48,22 @@ $result = $mysqli->query($sql);
           echo "</tr>";
         }
       } else {
-        // Display a message if there are no students
         echo "<tr><td colspan='4'>No students found.</td></tr>";
       }
       ?>
     </tbody>
   </table>
+
+  <div class="pagination">
+    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+      <a href="?page=<?php echo $i; ?>" class="<?php if($i == $current_page) echo 'active'; ?>">
+        <?php echo $i; ?>
+      </a>
+    <?php endfor; ?>
+  </div>
+
 </div>
 
 <?php
-// Include the footer
 require_once('../partials/footer.php');
 ?>
