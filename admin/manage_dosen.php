@@ -2,6 +2,7 @@
 // Include the database connection and header
 require_once('../db_connect.php');
 require_once('../partials/header.php');
+require_once('../partials/admin_menu.php');
 
 // --- PHP Logic to Fetch Data ---
 $sql = "SELECT npk, nama FROM dosen ORDER BY nama ASC";

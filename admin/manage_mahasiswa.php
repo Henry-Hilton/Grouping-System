@@ -2,6 +2,7 @@
 // admin/manage_mahasiswa.php
 require_once('../db_connect.php');
 require_once('../partials/header.php');
+require_once('../partials/admin_menu.php');
 
 // --- PHP Logic to Fetch Data ---
 $sql = "SELECT nrp, nama, angkatan FROM mahasiswa ORDER BY nama ASC";
