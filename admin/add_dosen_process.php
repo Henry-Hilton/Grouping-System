@@ -2,42 +2,48 @@
 // admin/add_dosen_process.php
 require_once('../db_connect.php');
 
-// Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    // Sanitize text inputs for security
+    // Sanitize all inputs
     $npk = htmlspecialchars($_POST['npk']);
     $nama = htmlspecialchars($_POST['nama']);
+    $username = htmlspecialchars($_POST['username']);
+    $password = $_POST['password']; // We don't sanitize the password before hashing
     
-    $photo_extension = null;
-
-    // --- Handle the file upload ---
-    if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
-        $target_dir = "../assets/images/dosen/";
-        $photo_extension = strtolower(pathinfo($_FILES["foto"]["name"], PATHINFO_EXTENSION));
-        $target_file = $target_dir . $npk . '.' . $photo_extension;
+    // --- Step 1: Create the Lecturer Record ---
+    $sql_insert_dosen = "INSERT INTO dosen (npk, nama) VALUES (?, ?)";
+    $stmt_insert_dosen = $mysqli->prepare($sql_insert_dosen);
+    $stmt_insert_dosen->bind_param("ss", $npk, $nama);
+    
+    // Execute the first insert
+    if ($stmt_insert_dosen->execute()) {
         
-        // Move the uploaded file to the target directory
-        move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
-    }
-
-    // --- Insert data into the database ---
-    
-    // First, insert the record without the photo extension
-    $sql_insert = "INSERT INTO dosen (npk, nama) VALUES (?, ?)";
-    $stmt_insert = $mysqli->prepare($sql_insert);
-    $stmt_insert->bind_param("ss", $npk, $nama);
-    
-    if ($stmt_insert->execute()) {
-        // If a photo was uploaded, update the record with the file extension
-        if ($photo_extension !== null) {
-            $sql_update = "UPDATE dosen SET foto_extension = ? WHERE npk = ?";
-            $stmt_update = $mysqli->prepare($sql_update);
-            $stmt_update->bind_param("ss", $photo_extension, $npk);
-            $stmt_update->execute();
+        // --- Step 2: Create the Account Record ---
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        
+        // Note: nrp_mahasiswa is NULL because this is a lecturer account
+        $sql_insert_akun = "INSERT INTO akun (username, password, npk_dosen) VALUES (?, ?, ?)";
+        $stmt_insert_akun = $mysqli->prepare($sql_insert_akun);
+        $stmt_insert_akun->bind_param("sss", $username, $hashed_password, $npk);
+        $stmt_insert_akun->execute();
+        
+        // --- Step 3: Handle the optional photo upload ---
+        if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
+            $photo_extension = strtolower(pathinfo($_FILES["foto"]["name"], PATHINFO_EXTENSION));
+            
+            // Update the dosen record with the photo extension
+            $sql_update_photo = "UPDATE dosen SET foto_extension = ? WHERE npk = ?";
+            $stmt_update_photo = $mysqli->prepare($sql_update_photo);
+            $stmt_update_photo->bind_param("ss", $photo_extension, $npk);
+            $stmt_update_photo->execute();
+            
+            // Move the uploaded file
+            $target_dir = "../assets/images/dosen/";
+            $target_file = $target_dir . $npk . '.' . $photo_extension;
+            move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
         }
         
-        // Redirect back to the management page on success
+        // Redirect on success
         header("Location: manage_dosen.php?status=success_add");
         exit();
         
