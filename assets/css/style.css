@@ -1,0 +1,149 @@
+/* Import a clean, modern font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+/* --- Basic Reset and Body Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    color: #212529;
+    line-height: 1.6;
+    font-size: 16px; /* Base font size */
+}
+
+/* --- Layout & Typography --- */
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px;
+}
+
+h1 {
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+p {
+    margin-bottom: 16px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #dee2e6;
+    margin: 16px 0;
+}
+
+/* --- Component Styles --- */
+
+/* Navigation */
+.main-nav ul {
+    list-style-type: none;
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+/* Buttons */
+.btn-add, .btn-submit, .btn-cancel, .btn-edit, .btn-delete {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 8px;
+    margin-bottom: 16px;
+}
+
+.btn-add:hover, .btn-submit:hover {
+    background-color: #0056b3;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+}
+.btn-cancel {
+    background-color: #6c757d;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+}
+
+/* Data Table */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+}
+
+.data-table th, .data-table td {
+    padding: 12px;
+    border: 1px solid #dee2e6;
+    text-align: left;
+}
+
+.data-table thead {
+    background-color: #e9ecef;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+/* Login Page Specifics */
+.login-container {
+    max-width: 400px;
+    margin-top: 80px;
+    background-color: #ffffff;
+    padding: 32px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Error/Success Messages */
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 12px;
+    border-radius: 5px;
+}
+.success-message {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 12px;
+    border-radius: 5px;
+}
