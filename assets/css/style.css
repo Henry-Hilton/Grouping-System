@@ -50,18 +50,35 @@ hr {
 /* --- Component Styles --- */
 
 /* Navigation */
+.main-nav {
+    background-color: #007bff; /* Same blue as the buttons */
+    border-radius: 8px;
+    padding: 8px 24px;
+    margin-bottom: 32px;
+}
+
 .main-nav ul {
     list-style-type: none;
     display: flex;
-    gap: 16px;
-    margin-bottom: 16px;
+    gap: 24px;
+    margin: 0; /* Remove default margins */
+    padding: 0; /* Remove default padding */
 }
 
-/* ADDED THIS STYLE for the active navigation link */
+.main-nav a {
+    color: #ffffff; /* White text color */
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.main-nav a:hover {
+    text-decoration: underline;
+}
+
 .main-nav a.active {
     font-weight: 600;
     text-decoration: underline;
-    color: #0056b3; 
+    color: #ffffff; /* Ensure active link is also white */
 }
 
 /* Buttons */
@@ -127,16 +144,6 @@ hr {
 
 .data-table tbody tr:nth-child(even) {
     background-color: #ffffff;
-}
-
-/* Login Page Specifics */
-.login-container {
-    max-width: 400px;
-    margin-top: 80px;
-    background-color: #ffffff;
-    padding: 32px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 /* Error/Success Messages */
@@ -220,4 +227,40 @@ hr {
     border: 1px solid #c3e6cb;
     padding: 12px;
     border-radius: 5px;
+}
+
+/* --- Login Page Redesign --- */
+
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-card h2 {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.login-card .tagline {
+    color: #6c757d;
+    margin-bottom: 24px;
+}
+
+.login-card .form-group {
+    text-align: left;
+}
+
+.btn-block {
+    width: 100%;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-size: 16px;
 }
