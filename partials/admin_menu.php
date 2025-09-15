@@ -7,4 +7,3 @@
     <li><a href="manage_mahasiswa.php">Manage Students</a></li>
     </ul>
 </nav>
-<hr>

@@ -52,7 +52,6 @@ hr {
 /* Navigation */
 .main-nav {
     background-color: #007bff; /* Same blue as the buttons */
-    border-radius: 8px;
     padding: 8px 24px;
     margin-bottom: 32px;
 }
