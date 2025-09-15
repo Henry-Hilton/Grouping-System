@@ -57,6 +57,13 @@ hr {
     margin-bottom: 16px;
 }
 
+/* ADDED THIS STYLE for the active navigation link */
+.main-nav a.active {
+    font-weight: 600;
+    text-decoration: underline;
+    color: #0056b3; 
+}
+
 /* Buttons */
 .btn-add, .btn-submit, .btn-cancel, .btn-edit, .btn-delete {
     display: inline-block;
