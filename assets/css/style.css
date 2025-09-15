@@ -154,3 +154,38 @@ hr {
     padding: 12px;
     border-radius: 5px;
 }
+
+/* --- Dashboard Specific Styles --- */
+
+.dashboard-stats {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    flex-grow: 1;
+    text-align: center;
+}
+
+.stat-card h2 {
+    font-size: 40px;
+    margin-bottom: 8px;
+    color: #007bff;
+}
+
+.stat-card p {
+    font-size: 16px;
+    color: #6c757d;
+    margin: 0;
+}
+
+.quick-actions h2 {
+    margin-bottom: 16px;
+}
