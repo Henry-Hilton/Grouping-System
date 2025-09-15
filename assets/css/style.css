@@ -170,6 +170,22 @@ hr {
     padding: 24px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 80px auto; /* Centered with top margin */
+}
+
+.dashboard-stats {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
     flex-grow: 1;
     text-align: center;
 }
@@ -188,4 +204,20 @@ hr {
 
 .quick-actions h2 {
     margin-bottom: 16px;
+}
+
+/* Error/Success Messages */
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 12px;
+    border-radius: 5px;
+}
+.success-message {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 12px;
+    border-radius: 5px;
 }
