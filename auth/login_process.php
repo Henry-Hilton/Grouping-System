@@ -28,13 +28,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Redirect based on user role
         if ($user['isadmin'] == 1) {
             // User is an Admin
-            header("Location: admin/index.php");
+            header("Location: ../admin/index.php");
         } else if ($user['npk_dosen'] !== null) {
             // User is a Lecturer
-            header("Location: dosen/index.php");
+            header("Location: ../dosen/index.php");
         } else if ($user['nrp_mahasiswa'] !== null) {
             // User is a Student
-            header("Location: mahasiswa/index.php");
+            header("Location: ../mahasiswa/index.php");
         } else {
             // Fallback for any other unknown user type
             header("Location: login.php?error=unknown_role");
