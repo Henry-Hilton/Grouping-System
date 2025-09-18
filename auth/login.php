@@ -8,7 +8,7 @@ if (isset($_SESSION['username'])) {
     }
 }
 // We only need the top part of the header for the login page
-require_once('partials/header.php'); 
+require_once('../partials/header.php'); 
 ?>
 
 <div class="login-wrapper">
