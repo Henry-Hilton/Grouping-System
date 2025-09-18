@@ -3,7 +3,7 @@ session_start();
 // If user is already logged in, redirect them away from the login page
 if (isset($_SESSION['username'])) {
     if (isset($_SESSION['isadmin']) && $_SESSION['isadmin'] == 1) {
-        header("Location: admin/index.php");
+        header("Location: ../admin/index.php");
         exit();
     }
 }
@@ -47,5 +47,5 @@ require_once('../partials/header.php');
 
 <?php
 // We only need the bottom part of the footer
-require_once('partials/footer.php');
+require_once('../partials/footer.php');
 ?>
