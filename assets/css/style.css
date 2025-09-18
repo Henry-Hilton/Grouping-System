@@ -51,17 +51,18 @@ hr {
 
 /* Navigation */
 .main-nav {
-    background-color: #007bff; /* Same blue as the buttons */
-    padding: 8px 24px;
-    margin-bottom: 32px;
+    /* ... existing styles ... */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .main-nav ul {
     list-style-type: none;
     display: flex;
     gap: 24px;
-    margin: 0; /* Remove default margins */
-    padding: 0; /* Remove default padding */
+    margin: 0;
+    padding: 0;
 }
 
 .main-nav a {

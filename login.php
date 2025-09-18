@@ -17,9 +17,15 @@ require_once('partials/header.php');
         <p class="tagline">Please log in to continue</p>
         
         <?php
-        // Display error messages if any
-        if (isset($_GET['error'])) {
+        // Display various messages based on URL parameters
+        if (isset($_GET['error']) && $_GET['error'] == '1') {
             echo '<p class="error-message">Invalid username or password.</p>';
+        } else if (isset($_GET['error']) && $_GET['error'] == 'unauthorized') {
+            echo '<p class="error-message">You are not authorized to access that page.</p>';
+        } else if (isset($_GET['error']) && $_GET['error'] == 'session_expired') {
+            echo '<p class="error-message">Your session has expired. Please log in again.</p>';
+        } else if (isset($_GET['status']) && $_GET['status'] == 'logged_out') {
+            echo '<p class="success-message">You have been successfully logged out.</p>';
         }
         ?>
         
