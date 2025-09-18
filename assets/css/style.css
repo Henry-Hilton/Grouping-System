@@ -51,7 +51,9 @@ hr {
 
 /* Navigation */
 .main-nav {
-    /* ... existing styles ... */
+    background-color: #007bff;
+    padding: 8px 24px;
+    margin-bottom: 32px;
     display: flex;
     justify-content: space-between;
     align-items: center;
