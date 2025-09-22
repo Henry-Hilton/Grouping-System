@@ -1,5 +1,6 @@
 <?php
 // admin/delete_dosen.php
+$required_role = 'admin';
 require_once('../partials/check_session.php');
 require_once('../db_connect.php');
 

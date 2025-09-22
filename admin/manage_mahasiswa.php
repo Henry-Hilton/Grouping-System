@@ -1,5 +1,6 @@
 <?php
 // admin/manage_mahasiswa.php
+$required_role = 'admin';
 require_once('../partials/check_session.php');
 require_once('../classes/Mahasiswa.php'); // Use the Mahasiswa class
 

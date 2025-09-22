@@ -1,5 +1,6 @@
 <?php
 // admin/edit_dosen_process.php
+$required_role = 'admin';
 require_once('../db_connect.php');
 
 // Check if the form was submitted

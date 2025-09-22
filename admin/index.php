@@ -1,5 +1,6 @@
 <?php
 // admin/index.php
+$required_role = 'admin';
 require_once('../partials/check_session.php');
 require_once('../classes/Dosen.php');
 require_once('../classes/Mahasiswa.php');

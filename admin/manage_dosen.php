@@ -1,5 +1,6 @@
 <?php
 // admin/manage_dosen.php
+$required_role = 'admin';
 require_once('../partials/check_session.php');
 require_once('../classes/Dosen.php'); // Use the Dosen class
 

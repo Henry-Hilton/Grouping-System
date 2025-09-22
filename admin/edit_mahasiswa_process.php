@@ -1,5 +1,6 @@
 <?php
 // admin/edit_mahasiswa_process.php
+$required_role = 'admin';
 require_once('../db_connect.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
