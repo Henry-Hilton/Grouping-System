@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS fullstack;
+CREATE DATABASE IF NOT EXISTS `fullstack`;
 USE `fullstack`;
 
 CREATE TABLE `mahasiswa` (
@@ -62,6 +62,30 @@ CREATE TABLE `event` (
   FOREIGN KEY (`idgrup`) REFERENCES `grup`(`idgrup`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- Run This Here Or in phpMyAdmin
-/* INSERT INTO `akun` (`username`, `password`, `nrp_mahasiswa`, `npk_dosen`, `isadmin`) 
-VALUES ('admin', 'YOUR_GENERATED_HASH_HERE', NULL, NULL, 1); */
+CREATE TABLE `thread` (
+  `idthread` int(11) NOT NULL AUTO_INCREMENT,
+  `username_pembuat` varchar(20) NOT NULL,
+  `idgrup` int(11) NOT NULL,
+  `tanggal_pembuatan` datetime NOT NULL,
+  `status` enum('Open','Closed') NOT NULL DEFAULT 'Open',
+  PRIMARY KEY (`idthread`),
+  FOREIGN KEY (`username_pembuat`) REFERENCES `akun`(`username`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  FOREIGN KEY (`idgrup`) REFERENCES `grup`(`idgrup`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `chat` (
+  `idchat` int(11) NOT NULL AUTO_INCREMENT,
+  `idthread` int(11) NOT NULL,
+  `username_pembuat` varchar(20) NOT NULL,
+  `isi` text NOT NULL,
+  `tanggal_pembuatan` datetime NOT NULL,
+  PRIMARY KEY (`idchat`),
+  FOREIGN KEY (`idthread`) REFERENCES `thread`(`idthread`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`username_pembuat`) REFERENCES `akun`(`username`) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+--
+-- Seeding the default admin user
+--
+INSERT INTO `akun` (`username`, `password`, `nrp_mahasiswa`, `npk_dosen`, `isadmin`) 
+VALUES ('admin', '$2y$10$YCiqg/RKu.9YzZhZSXINDODjFI.OZQvPM0h3UxG/iLTYlMw0rsgWG', NULL, NULL, 1);
