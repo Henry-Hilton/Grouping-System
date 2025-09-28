@@ -25,8 +25,10 @@ CREATE TABLE `akun` (
   `npk_dosen` char(6) DEFAULT NULL,
   `isadmin` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`username`),
-  FOREIGN KEY (`nrp_mahasiswa`) REFERENCES `mahasiswa`(`nrp`) ON DELETE SET NULL ON UPDATE CASCADE,
-  FOREIGN KEY (`npk_dosen`) REFERENCES `dosen`(`npk`) ON DELETE SET NULL ON UPDATE CASCADE
+  FOREIGN KEY (`nrp_mahasiswa`) REFERENCES `mahasiswa`(`nrp`) 
+      ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`npk_dosen`) REFERENCES `dosen`(`npk`) 
+      ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE `grup` (
@@ -38,15 +40,18 @@ CREATE TABLE `grup` (
   `jenis` enum('Akademik','Minat Bakat','Organisasi') NOT NULL,
   `kode_pendaftaran` varchar(45) NOT NULL,
   PRIMARY KEY (`idgrup`),
-  FOREIGN KEY (`username_pembuat`) REFERENCES `akun`(`username`) ON DELETE RESTRICT ON UPDATE CASCADE
+  FOREIGN KEY (`username_pembuat`) REFERENCES `akun`(`username`) 
+      ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE `member_grup` (
   `idgrup` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
   PRIMARY KEY (`idgrup`, `username`),
-  FOREIGN KEY (`idgrup`) REFERENCES `grup`(`idgrup`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`username`) REFERENCES `akun`(`username`) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (`idgrup`) REFERENCES `grup`(`idgrup`) 
+      ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`username`) REFERENCES `akun`(`username`) 
+      ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE `event` (
@@ -59,7 +64,8 @@ CREATE TABLE `event` (
   `jenis` enum('Rapat','Tugas','Acara') NOT NULL,
   `poster_extension` varchar(4) DEFAULT NULL,
   PRIMARY KEY (`idevent`),
-  FOREIGN KEY (`idgrup`) REFERENCES `grup`(`idgrup`) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (`idgrup`) REFERENCES `grup`(`idgrup`) 
+      ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE `thread` (
@@ -69,8 +75,10 @@ CREATE TABLE `thread` (
   `tanggal_pembuatan` datetime NOT NULL,
   `status` enum('Open','Closed') NOT NULL DEFAULT 'Open',
   PRIMARY KEY (`idthread`),
-  FOREIGN KEY (`username_pembuat`) REFERENCES `akun`(`username`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  FOREIGN KEY (`idgrup`) REFERENCES `grup`(`idgrup`) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (`username_pembuat`) REFERENCES `akun`(`username`) 
+      ON DELETE RESTRICT ON UPDATE CASCADE,
+  FOREIGN KEY (`idgrup`) REFERENCES `grup`(`idgrup`) 
+      ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE `chat` (
@@ -80,8 +88,10 @@ CREATE TABLE `chat` (
   `isi` text NOT NULL,
   `tanggal_pembuatan` datetime NOT NULL,
   PRIMARY KEY (`idchat`),
-  FOREIGN KEY (`idthread`) REFERENCES `thread`(`idthread`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`username_pembuat`) REFERENCES `akun`(`username`) ON DELETE RESTRICT ON UPDATE CASCADE
+  FOREIGN KEY (`idthread`) REFERENCES `thread`(`idthread`) 
+      ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`username_pembuat`) REFERENCES `akun`(`username`) 
+      ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 --
