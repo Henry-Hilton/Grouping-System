@@ -27,31 +27,40 @@ require_once('../partials/admin_menu.php');
   
   <table class="data-table">
     <thead>
-      <tr>
-        <th>NRP</th>
-        <th>Name</th>
-        <th>Class Of</th>
-        <th>Actions</th>
-      </tr>
+        <tr>
+            <th>Photo</th>
+            <th>NRP</th>
+            <th>Name</th>
+            <th>Class Of</th>
+            <th>Actions</th>
+        </tr>
     </thead>
     <tbody>
-      <?php
-      if ($mahasiswas && $mahasiswas->num_rows > 0) {
-        while ($row = $mahasiswas->fetch_assoc()) {
-          echo "<tr>";
-          echo "<td>" . htmlspecialchars($row['nrp']) . "</td>";
-          echo "<td>" . htmlspecialchars($row['nama']) . "</td>";
-          echo "<td>" . htmlspecialchars($row['angkatan']) . "</td>";
-          echo "<td>";
-          echo "<a href='edit_mahasiswa.php?nrp=" . $row['nrp'] . "' class='btn-edit'>Edit</a> ";
-          echo "<a href='delete_mahasiswa.php?nrp=" . $row['nrp'] . "' class='btn-delete'>Delete</a>";
-          echo "</td>";
-          echo "</tr>";
+        <?php
+        if ($mahasiswas && $mahasiswas->num_rows > 0) {
+            while ($row = $mahasiswas->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>";
+                if (!empty($row['foto_extention'])) {
+                    $photo_path = '../assets/images/mahasiswa/' . htmlspecialchars($row['nrp']) . '.' . htmlspecialchars($row['foto_extention']);
+                    echo "<img src='" . $photo_path . "' alt='Photo of " . htmlspecialchars($row['nama']) . "'>";
+                } else {
+                    echo "No Photo";
+                }
+                echo "</td>";
+                echo "<td>" . htmlspecialchars($row['nrp']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['nama']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['angkatan']) . "</td>";
+                echo "<td>";
+                echo "<a href='edit_mahasiswa.php?nrp=" . $row['nrp'] . "' class='btn-edit'>Edit</a> ";
+                echo "<a href='delete_mahasiswa.php?nrp=" . $row['nrp'] . "' class='btn-delete'>Delete</a>";
+                echo "</td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='5'>No students found.</td></tr>";
         }
-      } else {
-        echo "<tr><td colspan='4'>No students found.</td></tr>";
-      }
-      ?>
+        ?>
     </tbody>
   </table>
 

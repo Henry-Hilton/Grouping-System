@@ -5,7 +5,7 @@ require_once('Database.php');
 class Dosen extends Database {
 
     public function getAll($limit, $offset) {
-        $sql = "SELECT npk, nama FROM dosen ORDER BY nama ASC LIMIT ? OFFSET ?";
+        $sql = "SELECT npk, nama, foto_extension FROM dosen ORDER BY nama ASC LIMIT ? OFFSET ?";
         $stmt = $this->mysqli->prepare($sql);
         $stmt->bind_param("ii", $limit, $offset);
         $stmt->execute();

@@ -5,7 +5,7 @@ require_once('Database.php');
 class Mahasiswa extends Database {
 
     public function getAll($limit, $offset) {
-        $sql = "SELECT nrp, nama, angkatan FROM mahasiswa ORDER BY nama ASC LIMIT ? OFFSET ?";
+        $sql = "SELECT nrp, nama, angkatan, foto_extention FROM mahasiswa ORDER BY nama ASC LIMIT ? OFFSET ?";
         $stmt = $this->mysqli->prepare($sql);
         $stmt->bind_param("ii", $limit, $offset);
         $stmt->execute();

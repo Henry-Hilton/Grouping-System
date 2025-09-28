@@ -27,29 +27,38 @@ require_once('../partials/admin_menu.php');
   
   <table class="data-table">
     <thead>
-      <tr>
-        <th>NPK</th>
-        <th>Name</th>
-        <th>Actions</th>
-      </tr>
+        <tr>
+            <th>Photo</th>
+            <th>NPK</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
     </thead>
     <tbody>
-      <?php
-      if ($dosens && $dosens->num_rows > 0) {
-        while ($row = $dosens->fetch_assoc()) {
-          echo "<tr>";
-          echo "<td>" . htmlspecialchars($row['npk']) . "</td>";
-          echo "<td>" . htmlspecialchars($row['nama']) . "</td>";
-          echo "<td>";
-          echo "<a href='edit_dosen.php?npk=" . $row['npk'] . "' class='btn-edit'>Edit</a> ";
-          echo "<a href='delete_dosen.php?npk=" . $row['npk'] . "' class='btn-delete'>Delete</a>";
-          echo "</td>";
-          echo "</tr>";
+        <?php
+        if ($dosens && $dosens->num_rows > 0) {
+            while ($row = $dosens->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>";
+                if (!empty($row['foto_extension'])) {
+                    $photo_path = '../assets/images/dosen/' . htmlspecialchars($row['npk']) . '.' . htmlspecialchars($row['foto_extension']);
+                    echo "<img src='" . $photo_path . "' alt='Photo of " . htmlspecialchars($row['nama']) . "'>";
+                } else {
+                    echo "No Photo";
+                }
+                echo "</td>";
+                echo "<td>" . htmlspecialchars($row['npk']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['nama']) . "</td>";
+                echo "<td>";
+                echo "<a href='edit_dosen.php?npk=" . $row['npk'] . "' class='btn-edit'>Edit</a> ";
+                echo "<a href='delete_dosen.php?npk=" . $row['npk'] . "' class='btn-delete'>Delete</a>";
+                echo "</td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='4'>No lecturers found.</td></tr>";
         }
-      } else {
-        echo "<tr><td colspan='3'>No lecturers found.</td></tr>";
-      }
-      ?>
+        ?>
     </tbody>
   </table>
 
