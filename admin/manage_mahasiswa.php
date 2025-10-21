@@ -1,18 +1,17 @@
 <?php
-// admin/manage_mahasiswa.php
 $required_role = 'admin';
 require_once('../partials/check_session.php');
-require_once('../classes/Mahasiswa.php'); // Use the Mahasiswa class
+require_once('../classes/Mahasiswa.php');
 
-// --- Pagination Logic ---
+
 $mahasiswaHandler = new Mahasiswa();
-$data_per_page = 10; // How many items to show per page
+$data_per_page = 10;
 $total_data = $mahasiswaHandler->getTotalCount();
 $total_pages = ceil($total_data / $data_per_page);
 $current_page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($current_page - 1) * $data_per_page;
 
-// Fetch the data for the current page
+
 $mahasiswas = $mahasiswaHandler->getAll($data_per_page, $offset);
 
 require_once('../partials/header.php');
@@ -42,15 +41,15 @@ require_once('../partials/admin_menu.php');
                 echo "<tr>";
                 echo "<td>";
                 if (!empty($row['foto_extention'])) {
-                    $photo_path = '../assets/images/mahasiswa/' . htmlspecialchars($row['nrp']) . '.' . htmlspecialchars($row['foto_extention']);
-                    echo "<img src='" . $photo_path . "' alt='Photo of " . htmlspecialchars($row['nama']) . "'>";
+                    $photo_path = '../assets/images/mahasiswa/' . htmlentities($row['nrp']) . '.' . htmlentities($row['foto_extention']);
+                    echo "<img src='" . $photo_path . "' alt='Photo of " . htmlentities($row['nama']) . "'>";
                 } else {
                     echo "No Photo";
                 }
                 echo "</td>";
-                echo "<td>" . htmlspecialchars($row['nrp']) . "</td>";
-                echo "<td>" . htmlspecialchars($row['nama']) . "</td>";
-                echo "<td>" . htmlspecialchars($row['angkatan']) . "</td>";
+                echo "<td>" . htmlentities($row['nrp']) . "</td>";
+                echo "<td>" . htmlentities($row['nama']) . "</td>";
+                echo "<td>" . htmlentities($row['angkatan']) . "</td>";
                 echo "<td>";
                 echo "<a href='edit_mahasiswa.php?nrp=" . $row['nrp'] . "' class='btn-edit'>Edit</a> ";
                 echo "<a href='delete_mahasiswa.php?nrp=" . $row['nrp'] . "' class='btn-delete'>Delete</a>";

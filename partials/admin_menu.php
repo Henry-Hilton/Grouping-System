@@ -1,4 +1,4 @@
-<?php // partials/admin_menu.php ?>
+<?php  ?>
 
 <nav class="main-nav">
     <ul class="nav-links">

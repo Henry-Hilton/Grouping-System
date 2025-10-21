@@ -1,5 +1,4 @@
 <?php
-// classes/Grup.php
 require_once('Database.php');
 
 class Grup extends Database {

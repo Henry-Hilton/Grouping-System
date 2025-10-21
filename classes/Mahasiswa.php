@@ -1,5 +1,4 @@
 <?php
-// classes/Mahasiswa.php
 require_once('Database.php');
 
 class Mahasiswa extends Database {
@@ -19,6 +18,6 @@ class Mahasiswa extends Database {
         return $row['total'];
     }
 
-    // We will add methods for add, edit, delete here later
+    
 }
 ?>

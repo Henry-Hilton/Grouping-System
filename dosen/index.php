@@ -1,7 +1,7 @@
 <?php
-require_once('../partials/check_session.php'); // Checks for login
+require_once('../partials/check_session.php'); 
 require_once('../partials/header.php');
-// We will add a real dosen_menu.php here later
+
 ?>
 <div class="container">
     <h1>Welcome, Lecturer!</h1>

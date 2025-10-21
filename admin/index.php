@@ -1,5 +1,4 @@
 <?php
-// admin/index.php
 $required_role = 'admin';
 require_once('../partials/check_session.php');
 require_once('../classes/Dosen.php');
@@ -7,7 +6,7 @@ require_once('../classes/Mahasiswa.php');
 require_once('../classes/Grup.php');
 require_once('../classes/Event.php');
 
-// --- Fetch Dashboard Statistics ---
+
 $dosenHandler = new Dosen();
 $mahasiswaHandler = new Mahasiswa();
 $grupHandler = new Grup();
@@ -18,14 +17,14 @@ $total_mahasiswa = $mahasiswaHandler->getTotalCount();
 $total_grup = $grupHandler->getTotalCount();
 $total_event = $eventHandler->getTotalCount();
 
-// --- Start displaying the page ---
+
 require_once('../partials/header.php');
 require_once('../partials/admin_menu.php');
 ?>
 
 <div class="container">
     <h1>Admin Dashboard</h1>
-    <p>Welcome, <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong>!</p>
+    <p>Welcome, <strong><?php echo htmlentities($_SESSION['username']); ?></strong>!</p>
 
     <div class="dashboard-stats">
         <div class="stat-card">

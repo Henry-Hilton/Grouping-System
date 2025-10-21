@@ -1,13 +1,13 @@
 <?php
 session_start();
-// If user is already logged in, redirect them away from the login page
+
 if (isset($_SESSION['username'])) {
     if (isset($_SESSION['isadmin']) && $_SESSION['isadmin'] == 1) {
         header("Location: ../admin/index.php");
         exit();
     }
 }
-// We only need the top part of the header for the login page
+
 require_once('../partials/header.php'); 
 ?>
 
@@ -17,7 +17,7 @@ require_once('../partials/header.php');
         <p class="tagline">Please log in to continue</p>
         
         <?php
-        // Display various messages based on URL parameters
+        
         if (isset($_GET['error']) && $_GET['error'] == '1') {
             echo '<p class="error-message">Invalid username or password.</p>';
         } else if (isset($_GET['error']) && $_GET['error'] == 'unauthorized') {
@@ -46,6 +46,6 @@ require_once('../partials/header.php');
 </div>
 
 <?php
-// We only need the bottom part of the footer
+
 require_once('../partials/footer.php');
 ?>

@@ -1,5 +1,4 @@
 <?php
-// admin/add_mahasiswa.php
 $required_role = 'admin';
 require_once('../partials/check_session.php');
 require_once('../db_connect.php');

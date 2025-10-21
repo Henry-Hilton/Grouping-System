@@ -1,5 +1,4 @@
 <?php
-// classes/Dosen.php
 require_once('Database.php');
 
 class Dosen extends Database {
@@ -19,6 +18,6 @@ class Dosen extends Database {
         return $row['total'];
     }
     
-    // We will add methods for add, edit, delete here later
+    
 }
 ?>

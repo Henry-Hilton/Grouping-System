@@ -1,5 +1,4 @@
 <?php
-// classes/Database.php
 
 class Database {
     protected $mysqli;
