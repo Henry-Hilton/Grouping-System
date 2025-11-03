@@ -8,6 +8,17 @@ require_once('../partials/admin_menu.php');
 
 <div class="container">
   <h1>Add New Student</h1>
+
+  <?php
+  // Add this block to show the new error messages
+  if (isset($_GET['error'])) {
+      if ($_GET['error'] == 'duplicate_nrp') {
+          echo '<p class="error-message">Error: A student with this NRP already exists.</p>';
+      } else if ($_GET['error'] == 'duplicate_username') {
+          echo '<p class="error-message">Error: This username is already taken. Please choose another.</p>';
+      }
+  }
+  ?>
   
   <form action="add_mahasiswa_process.php" method="post" enctype="multipart/form-data">
     <div class="form-group">

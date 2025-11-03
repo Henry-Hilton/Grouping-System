@@ -7,6 +7,17 @@ require_once('../partials/header.php');
 
 <div class="container">
   <h1>Add New Lecturer</h1>
+
+  <?php
+  // Add this block to show the new error messages
+  if (isset($_GET['error'])) {
+      if ($_GET['error'] == 'duplicate_npk') {
+          echo '<p class="error-message">Error: A lecturer with this NPK already exists.</p>';
+      } else if ($_GET['error'] == 'duplicate_username') {
+          echo '<p class="error-message">Error: This username is already taken. Please choose another.</p>';
+      }
+  }
+  ?>
   
   <form action="add_dosen_process.php" method="post" enctype="multipart/form-data">
     <div class="form-group">
