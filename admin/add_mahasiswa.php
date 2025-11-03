@@ -10,7 +10,6 @@ require_once('../partials/admin_menu.php');
   <h1>Add New Student</h1>
 
   <?php
-  // Add this block to show the new error messages
   if (isset($_GET['error'])) {
       if ($_GET['error'] == 'duplicate_nrp') {
           echo '<p class="error-message">Error: A student with this NRP already exists.</p>';

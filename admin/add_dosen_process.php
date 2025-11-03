@@ -1,18 +1,13 @@
 <?php
-// admin/add_dosen_process.php
 require_once('../db_connect.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    // Sanitize all inputs using htmlentities
     $npk = htmlentities($_POST['npk']);
     $nama = htmlentities($_POST['nama']);
     $username = htmlentities($_POST['username']);
     $password = $_POST['password'];
     
-    // --- 1. CHECK FOR DUPLICATES ---
-    
-    // Check if NPK already exists in dosen table
     $sql_check_npk = "SELECT npk FROM dosen WHERE npk = ?";
     $stmt_check_npk = $mysqli->prepare($sql_check_npk);
     $stmt_check_npk->bind_param("s", $npk);
@@ -24,7 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    // Check if Username already exists in akun table
     $sql_check_user = "SELECT username FROM akun WHERE username = ?";
     $stmt_check_user = $mysqli->prepare($sql_check_user);
     $stmt_check_user->bind_param("s", $username);
@@ -35,8 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: add_dosen.php?error=duplicate_username");
         exit();
     }
-    
-    // --- 2. NO DUPLICATES FOUND, PROCEED WITH INSERTION ---
     
     $sql_insert_dosen = "INSERT INTO dosen (npk, nama) VALUES (?, ?)";
     $stmt_insert_dosen = $mysqli->prepare($sql_insert_dosen);
@@ -64,7 +56,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
         }
         
-        $mysqli->autocommit(TRUE); // Ensure changes are saved
         header("Location: manage_dosen.php?status=success_add");
         exit();
         

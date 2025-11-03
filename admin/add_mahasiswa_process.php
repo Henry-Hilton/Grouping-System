@@ -1,21 +1,16 @@
 <?php
-// admin/add_mahasiswa_process.php
 require_once('../db_connect.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    // Sanitize all inputs
-    $nrp = htmlspecialchars($_POST['nrp']);
-    $nama = htmlspecialchars($_POST['nama']);
-    $gender = htmlspecialchars($_POST['gender']);
-    $tanggal_lahir = htmlspecialchars($_POST['tanggal_lahir']);
-    $angkatan = htmlspecialchars($_POST['angkatan']);
-    $username = htmlspecialchars($_POST['username']);
+    $nrp = htmlentities($_POST['nrp']);
+    $nama = htmlentities($_POST['nama']);
+    $gender = htmlentities($_POST['gender']);
+    $tanggal_lahir = htmlentities($_POST['tanggal_lahir']);
+    $angkatan = htmlentities($_POST['angkatan']);
+    $username = htmlentities($_POST['username']);
     $password = $_POST['password'];
     
-    // --- 1. CHECK FOR DUPLICATES ---
-    
-    // Check if NRP already exists in mahasiswa table
     $sql_check_nrp = "SELECT nrp FROM mahasiswa WHERE nrp = ?";
     $stmt_check_nrp = $mysqli->prepare($sql_check_nrp);
     $stmt_check_nrp->bind_param("s", $nrp);
@@ -23,12 +18,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result_nrp = $stmt_check_nrp->get_result();
 
     if ($result_nrp->num_rows > 0) {
-        // NRP already exists, redirect back with an error
         header("Location: add_mahasiswa.php?error=duplicate_nrp");
         exit();
     }
 
-    // Check if Username already exists in akun table
     $sql_check_user = "SELECT username FROM akun WHERE username = ?";
     $stmt_check_user = $mysqli->prepare($sql_check_user);
     $stmt_check_user->bind_param("s", $username);
@@ -36,12 +29,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result_user = $stmt_check_user->get_result();
 
     if ($result_user->num_rows > 0) {
-        // Username already exists, redirect back with an error
         header("Location: add_mahasiswa.php?error=duplicate_username");
         exit();
     }
-    
-    // --- 2. NO DUPLICATES FOUND, PROCEED WITH INSERTION ---
     
     $sql_insert_mahasiswa = "INSERT INTO mahasiswa (nrp, nama, gender, tanggal_lahir, angkatan) VALUES (?, ?, ?, ?, ?)";
     $stmt_insert_mahasiswa = $mysqli->prepare($sql_insert_mahasiswa);
@@ -69,7 +59,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
         }
         
-        $mysqli->autocommit(TRUE); // Ensure changes are saved
         header("Location: manage_mahasiswa.php?status=success_add");
         exit();
         
