@@ -87,9 +87,9 @@ $events = $stmt_events->get_result();
 
     <div class="section-header">
         <h2>Group Members</h2>
-        <button class="btn-add" id="btnAddMember">Manage Members</button>
+        <a href="manage_members.php?id=<?php echo $idgrup; ?>" class="btn-add">Manage Members</a>
     </div>
-    <p><em>Member list will be implemented in the next phase.</em></p>
+    <p>Click "Manage Members" to add or remove students.</p>
 
 </div>
 
