@@ -29,16 +29,14 @@ require_once('../partials/header.php');
         </div>
 
         <div class="form-group">
-            <label for="jenis">Group Type & Visibility</label>
+            <label for="jenis">Group Visibility</label>
             <select id="jenis" name="jenis" class="form-control" required>
-                <option value="Akademik">Akademik (Private)</option>
-                <option value="Minat Bakat">Minat Bakat (Private)</option>
-                <option value="Organisasi">Organisasi (Private)</option>
-
-                <option value="Publik">Publik (Visible to all students)</option>
+                <option value="Private">Private (Hidden from lists, requires code)</option>
+                <option value="Publik">Public (Visible to all students)</option>
             </select>
             <small class="form-text text-muted">
-                Only "Publik" groups appear in the student's Explore list. Other types require the code to join.
+                Public groups appear in the "Explore" list. Private groups are hidden. Both require the registration
+                code to join.
             </small>
         </div>
 

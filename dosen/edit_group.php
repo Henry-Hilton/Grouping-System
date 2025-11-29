@@ -45,20 +45,12 @@ $group = $result->fetch_assoc();
         </div>
 
         <div class="form-group">
-            <label for="jenis">Group Type & Visibility</label>
+            <label for="jenis">Group Visibility</label>
             <select id="jenis" name="jenis" class="form-control" required>
-                <option value="Akademik" <?php if ($group['jenis'] == 'Akademik')
-                    echo 'selected'; ?>>Akademik (Private)
-                </option>
-                <option value="Minat Bakat" <?php if ($group['jenis'] == 'Minat Bakat')
-                    echo 'selected'; ?>>Minat Bakat
-                    (Private)</option>
-                <option value="Organisasi" <?php if ($group['jenis'] == 'Organisasi')
-                    echo 'selected'; ?>>Organisasi
-                    (Private)</option>
+                <option value="Private" <?php if ($group['jenis'] == 'Private')
+                    echo 'selected'; ?>>Private</option>
                 <option value="Publik" <?php if ($group['jenis'] == 'Publik')
-                    echo 'selected'; ?>>Publik (Visible to all
-                    students)</option>
+                    echo 'selected'; ?>>Public</option>
             </select>
         </div>
 

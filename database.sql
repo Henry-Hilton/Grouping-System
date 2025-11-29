@@ -42,7 +42,7 @@ CREATE TABLE `akun` (
 
 --
 -- Table structure for table `grup`
--- UPDATED: 'jenis' now includes 'Publik' to support visibility logic
+-- UPDATED: Simplified 'jenis' to only 'Publik' and 'Private'
 --
 CREATE TABLE `grup` (
   `idgrup` int(11) NOT NULL AUTO_INCREMENT,
@@ -50,7 +50,7 @@ CREATE TABLE `grup` (
   `nama` varchar(45) NOT NULL,
   `deskripsi` varchar(45) NOT NULL,
   `tanggal_pembentukan` datetime NOT NULL,
-  `jenis` enum('Akademik','Minat Bakat','Organisasi','Publik') NOT NULL,
+  `jenis` enum('Publik','Private') NOT NULL,
   `kode_pendaftaran` varchar(45) NOT NULL,
   PRIMARY KEY (`idgrup`),
   FOREIGN KEY (`username_pembuat`) REFERENCES `akun`(`username`) 
@@ -72,7 +72,6 @@ CREATE TABLE `member_grup` (
 
 --
 -- Table structure for table `event`
--- FIX: 'judul_slug' made nullable to prevent insert errors
 --
 CREATE TABLE `event` (
   `idevent` int(11) NOT NULL AUTO_INCREMENT,
