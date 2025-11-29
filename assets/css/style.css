@@ -16,9 +16,11 @@ body {
 }
 
 .container {
-    max-width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 32px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 h1 {
@@ -80,33 +82,67 @@ hr {
 
 .btn-add,
 .btn-submit,
-.btn-cancel,
 .btn-edit,
-.btn-delete {
+.btn-details,
+.btn-logout,
+.btn-delete,
+.btn-cancel,
+.btn-edit-small {
     display: inline-block;
     padding: 8px 16px;
     border-radius: 5px;
-    background-color: #007bff;
-    color: white;
     text-decoration: none;
+    color: #ffffff !important;
+    font-weight: bold;
     border: none;
     cursor: pointer;
-    font-size: 14px;
-    margin-right: 8px;
-    margin-bottom: 16px;
+    text-align: center;
+    transition: background-color 0.3s;
+    font-family: inherit;
+    line-height: normal;
+}
+
+.btn-add,
+.btn-submit,
+.btn-edit,
+.btn-details,
+.btn-edit-small {
+    background-color: #007bff;
 }
 
 .btn-add:hover,
-.btn-submit:hover {
+.btn-submit:hover,
+.btn-edit:hover,
+.btn-details:hover,
+.btn-edit-small:hover {
     background-color: #0056b3;
+    text-decoration: none;
 }
 
+.btn-logout,
 .btn-delete {
     background-color: #dc3545;
 }
 
+.btn-logout:hover,
+.btn-delete:hover {
+    background-color: #c82333;
+    text-decoration: none;
+}
+
 .btn-cancel {
     background-color: #6c757d;
+    margin-right: 10px;
+}
+
+.btn-cancel:hover {
+    background-color: #545b62;
+    text-decoration: none;
+}
+
+.btn-edit-small {
+    padding: 5px 10px;
+    font-size: 0.85rem;
 }
 
 .form-group {
@@ -274,7 +310,7 @@ hr {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
-    padding-bottom: 15px;
+    padding-bottom: 20px;
     border-bottom: 1px solid #eee;
 }
 
@@ -395,6 +431,7 @@ hr {
 .header-actions {
     display: flex;
     gap: 15px;
+    align-items: center;
 }
 
 .btn-logout {
