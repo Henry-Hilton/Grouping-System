@@ -1,6 +1,9 @@
 CREATE DATABASE IF NOT EXISTS `fullstack`;
 USE `fullstack`;
 
+--
+-- Table structure for table `mahasiswa`
+--
 CREATE TABLE `mahasiswa` (
   `nrp` char(9) NOT NULL,
   `nama` varchar(45) NOT NULL,
@@ -11,6 +14,9 @@ CREATE TABLE `mahasiswa` (
   PRIMARY KEY (`nrp`)
 );
 
+--
+-- Table structure for table `dosen`
+--
 CREATE TABLE `dosen` (
   `npk` char(6) NOT NULL,
   `nama` varchar(45) NOT NULL,
@@ -18,6 +24,9 @@ CREATE TABLE `dosen` (
   PRIMARY KEY (`npk`)
 );
 
+--
+-- Table structure for table `akun`
+--
 CREATE TABLE `akun` (
   `username` varchar(20) NOT NULL,
   `password` varchar(100) NOT NULL,
@@ -31,19 +40,26 @@ CREATE TABLE `akun` (
       ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+--
+-- Table structure for table `grup`
+-- UPDATED: 'jenis' now includes 'Publik' to support visibility logic
+--
 CREATE TABLE `grup` (
   `idgrup` int(11) NOT NULL AUTO_INCREMENT,
   `username_pembuat` varchar(20) NOT NULL,
   `nama` varchar(45) NOT NULL,
   `deskripsi` varchar(45) NOT NULL,
   `tanggal_pembentukan` datetime NOT NULL,
-  `jenis` enum('Akademik','Minat Bakat','Organisasi') NOT NULL,
+  `jenis` enum('Akademik','Minat Bakat','Organisasi','Publik') NOT NULL,
   `kode_pendaftaran` varchar(45) NOT NULL,
   PRIMARY KEY (`idgrup`),
   FOREIGN KEY (`username_pembuat`) REFERENCES `akun`(`username`) 
       ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
+--
+-- Table structure for table `member_grup`
+--
 CREATE TABLE `member_grup` (
   `idgrup` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
@@ -54,11 +70,15 @@ CREATE TABLE `member_grup` (
       ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+--
+-- Table structure for table `event`
+-- FIX: 'judul_slug' made nullable to prevent insert errors
+--
 CREATE TABLE `event` (
   `idevent` int(11) NOT NULL AUTO_INCREMENT,
   `idgrup` int(11) NOT NULL,
   `judul` varchar(45) NOT NULL,
-  `judul_slug` varchar(45) NOT NULL,
+  `judul_slug` varchar(45) DEFAULT NULL,
   `tanggal` datetime NOT NULL,
   `keterangan` text NOT NULL,
   `jenis` enum('Rapat','Tugas','Acara') NOT NULL,
@@ -68,6 +88,9 @@ CREATE TABLE `event` (
       ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+--
+-- Table structure for table `thread`
+--
 CREATE TABLE `thread` (
   `idthread` int(11) NOT NULL AUTO_INCREMENT,
   `username_pembuat` varchar(20) NOT NULL,
@@ -81,6 +104,9 @@ CREATE TABLE `thread` (
       ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+--
+-- Table structure for table `chat`
+--
 CREATE TABLE `chat` (
   `idchat` int(11) NOT NULL AUTO_INCREMENT,
   `idthread` int(11) NOT NULL,

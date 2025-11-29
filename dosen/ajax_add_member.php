@@ -1,5 +1,4 @@
 <?php
-// 1. SECURITY: Only allow logged-in lecturers
 $required_role = 'dosen';
 require_once('../partials/check_session.php');
 require_once('../db_connect.php');
@@ -9,7 +8,6 @@ if (isset($_POST['nrp']) && isset($_POST['idgrup'])) {
     $idgrup = $_POST['idgrup'];
     $my_username = $_SESSION['username'];
 
-    // 2. SECURITY: Verify ownership
     $sql_check = "SELECT idgrup FROM grup WHERE idgrup = ? AND username_pembuat = ?";
     $stmt_check = $mysqli->prepare($sql_check);
     $stmt_check->bind_param("is", $idgrup, $my_username);
@@ -20,8 +18,6 @@ if (isset($_POST['nrp']) && isset($_POST['idgrup'])) {
         exit();
     }
 
-    // 3. FIX: Get the ACCOUNT USERNAME associated with this NRP
-    // We cannot insert the NRP directly if the table expects a Username FK
     $sql_get_user = "SELECT username FROM akun WHERE nrp_mahasiswa = ?";
     $stmt_get_user = $mysqli->prepare($sql_get_user);
     $stmt_get_user->bind_param("s", $nrp);
@@ -29,7 +25,6 @@ if (isset($_POST['nrp']) && isset($_POST['idgrup'])) {
     $res_user = $stmt_get_user->get_result();
 
     if ($res_user->num_rows === 0) {
-        // This student exists in 'mahasiswa' but has no 'akun' yet
         echo "error_no_account";
         exit();
     }
@@ -37,7 +32,6 @@ if (isset($_POST['nrp']) && isset($_POST['idgrup'])) {
     $row_user = $res_user->fetch_assoc();
     $student_username = $row_user['username'];
 
-    // 4. Insert the USERNAME into member_grup
     $sql = "INSERT INTO member_grup (idgrup, username) VALUES (?, ?)";
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("is", $idgrup, $student_username);

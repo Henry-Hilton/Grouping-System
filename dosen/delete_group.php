@@ -7,33 +7,26 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $idgrup = $_GET['id'];
     $my_username = $_SESSION['username'];
 
-    // 1. SECURITY: Verify Ownership
-    // Only the creator can delete the group
     $sql_check = "SELECT idgrup FROM grup WHERE idgrup = ? AND username_pembuat = ?";
     $stmt_check = $mysqli->prepare($sql_check);
     $stmt_check->bind_param("is", $idgrup, $my_username);
     $stmt_check->execute();
 
     if ($stmt_check->get_result()->num_rows === 0) {
-        // Not the owner or group doesn't exist
         header("Location: index.php?error=unauthorized");
         exit();
     }
 
-    // 2. DELETE RELATED DATA (Manual Cascade)
-    // Delete all members of this group
     $sql_del_members = "DELETE FROM member_grup WHERE idgrup = ?";
     $stmt_del_members = $mysqli->prepare($sql_del_members);
     $stmt_del_members->bind_param("i", $idgrup);
     $stmt_del_members->execute();
 
-    // Delete all events of this group
     $sql_del_events = "DELETE FROM event WHERE idgrup = ?";
     $stmt_del_events = $mysqli->prepare($sql_del_events);
     $stmt_del_events->bind_param("i", $idgrup);
     $stmt_del_events->execute();
 
-    // 3. DELETE THE GROUP
     $sql_del_group = "DELETE FROM grup WHERE idgrup = ?";
     $stmt_del_group = $mysqli->prepare($sql_del_group);
     $stmt_del_group->bind_param("i", $idgrup);

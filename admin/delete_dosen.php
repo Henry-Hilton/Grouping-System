@@ -1,45 +1,40 @@
 <?php
-$required_role = 'admin';
-require_once('../partials/check_session.php');
 require_once('../db_connect.php');
 
+if (isset($_GET['npk'])) {
+    $npk = $_GET['npk'];
 
-if (!isset($_GET['npk'])) {
-    header("Location: manage_dosen.php?status=error_no_npk");
-    exit();
-}
+    $sql_find_user = "SELECT username FROM akun WHERE npk_dosen = ?";
+    $stmt_find = $mysqli->prepare($sql_find_user);
+    $stmt_find->bind_param("s", $npk);
+    $stmt_find->execute();
+    $result_user = $stmt_find->get_result();
 
-$npk = $_GET['npk'];
+    if ($result_user->num_rows > 0) {
+        $row = $result_user->fetch_assoc();
+        $username = $row['username'];
 
+        $sql_del_groups = "DELETE FROM grup WHERE username_pembuat = ?";
+        $stmt_groups = $mysqli->prepare($sql_del_groups);
+        $stmt_groups->bind_param("s", $username);
+        $stmt_groups->execute();
 
-$sql_select = "SELECT foto_extension FROM dosen WHERE npk = ?";
-$stmt_select = $mysqli->prepare($sql_select);
-$stmt_select->bind_param("s", $npk);
-$stmt_select->execute();
-$result = $stmt_select->get_result();
-$dosen = $result->fetch_assoc();
-
-$photo_extension = $dosen['foto_extension'];
-
-
-$sql_delete = "DELETE FROM dosen WHERE npk = ?";
-$stmt_delete = $mysqli->prepare($sql_delete);
-$stmt_delete->bind_param("s", $npk);
-
-if ($stmt_delete->execute()) {
-    
-    if (!empty($photo_extension)) {
-        $file_path = "../assets/images/dosen/" . $npk . "." . $photo_extension;
-        if (file_exists($file_path)) {
-            unlink($file_path); 
-        }
+        $sql_del_akun = "DELETE FROM akun WHERE username = ?";
+        $stmt_akun = $mysqli->prepare($sql_del_akun);
+        $stmt_akun->bind_param("s", $username);
+        $stmt_akun->execute();
     }
-    
-    header("Location: manage_dosen.php?status=success_delete");
-    exit();
 
+    $sql_del_dosen = "DELETE FROM dosen WHERE npk = ?";
+    $stmt_dosen = $mysqli->prepare($sql_del_dosen);
+    $stmt_dosen->bind_param("s", $npk);
+
+    if ($stmt_dosen->execute()) {
+        header("Location: manage_dosen.php?status=success_delete");
+    } else {
+        echo "Error deleting lecturer: " . $mysqli->error;
+    }
 } else {
-    header("Location: manage_dosen.php?status=error_delete");
-    exit();
+    header("Location: manage_dosen.php");
 }
 ?>

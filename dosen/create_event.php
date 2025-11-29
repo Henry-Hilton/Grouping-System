@@ -13,6 +13,16 @@ $idgrup = $_GET['idgrup'];
 <div class="container">
     <h1>Add New Event</h1>
 
+    <?php
+    if (isset($_GET['error'])) {
+        if ($_GET['error'] == 'duplicate_title') {
+            echo '<p class="error-message">Error: An event with this Title already exists in this group.</p>';
+        } elseif ($_GET['error'] == 'duplicate_time') {
+            echo '<p class="error-message">Error: There is already an event scheduled for this exact time.</p>';
+        }
+    }
+    ?>
+
     <form action="create_event_process.php" method="post">
         <input type="hidden" name="idgrup" value="<?php echo htmlentities($idgrup); ?>">
 

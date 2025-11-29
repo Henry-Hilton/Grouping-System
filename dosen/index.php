@@ -4,7 +4,6 @@ require_once('../partials/check_session.php');
 require_once('../partials/header.php');
 require_once('../db_connect.php');
 
-// 1. Fetch the data
 $username = $_SESSION['username'];
 $sql = "SELECT * FROM grup WHERE username_pembuat = ? ORDER BY tanggal_pembentukan DESC";
 $stmt = $mysqli->prepare($sql);

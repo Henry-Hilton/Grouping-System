@@ -10,7 +10,6 @@ if (!isset($_GET['id'])) {
 }
 $idgrup = $_GET['id'];
 
-// Fetch Group Info for the title
 $sql = "SELECT nama FROM grup WHERE idgrup = ?";
 $stmt = $mysqli->prepare($sql);
 $stmt->bind_param("i", $idgrup);
@@ -43,7 +42,6 @@ $group = $stmt->get_result()->fetch_assoc();
         </thead>
         <tbody id="current_members_body">
             <?php
-            // Initial load of members
             $sql_members = "SELECT m.nrp, m.nama 
                 FROM member_grup mg 
                 JOIN akun a ON mg.username = a.username 

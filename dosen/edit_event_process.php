@@ -12,7 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $jenis = $_POST['jenis'];
     $keterangan = htmlentities($_POST['keterangan']);
 
-    // Update the event
     $sql = "UPDATE event SET judul=?, tanggal=?, jenis=?, keterangan=? WHERE idevent=?";
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("ssssi", $judul, $tanggal, $jenis, $keterangan, $idevent);

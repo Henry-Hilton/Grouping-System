@@ -10,7 +10,6 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 }
 $idevent = $_GET['id'];
 
-// Fetch the existing event data
 $sql = "SELECT * FROM event WHERE idevent = ?";
 $stmt = $mysqli->prepare($sql);
 $stmt->bind_param("i", $idevent);
