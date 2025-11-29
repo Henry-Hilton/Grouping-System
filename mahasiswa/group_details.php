@@ -4,6 +4,7 @@ require_once('../partials/check_session.php');
 require_once('../partials/header.php');
 require_once('../db_connect.php');
 
+// 1. Validate ID
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: index.php");
     exit();
@@ -11,6 +12,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 $idgrup = $_GET['id'];
 $nrp = $_SESSION['username'];
 
+// 2. Security Check: Is the student actually a member of this group?
 $sql_check = "SELECT * FROM member_grup WHERE idgrup = ? AND username = ?";
 $stmt_check = $mysqli->prepare($sql_check);
 $stmt_check->bind_param("is", $idgrup, $nrp);
@@ -21,18 +23,21 @@ if ($stmt_check->get_result()->num_rows === 0) {
     exit();
 }
 
+// 3. Fetch Group Details
 $sql_group = "SELECT * FROM grup WHERE idgrup = ?";
 $stmt_group = $mysqli->prepare($sql_group);
 $stmt_group->bind_param("i", $idgrup);
 $stmt_group->execute();
 $group = $stmt_group->get_result()->fetch_assoc();
 
+// 4. Fetch Events
 $sql_events = "SELECT * FROM event WHERE idgrup = ? ORDER BY tanggal DESC";
 $stmt_events = $mysqli->prepare($sql_events);
 $stmt_events->bind_param("i", $idgrup);
 $stmt_events->execute();
 $events = $stmt_events->get_result();
 
+// 5. Fetch Members
 $sql_members = "SELECT m.nrp, m.nama FROM member_grup mg 
                 JOIN mahasiswa m ON mg.username = m.nrp 
                 WHERE mg.idgrup = ? ORDER BY m.nama ASC";
@@ -73,20 +78,27 @@ $members = $stmt_members->get_result();
             </tr>
         </thead>
         <tbody>
-            <?php if ($events->num_rows > 0): ?>
-                <?php while ($event = $events->fetch_assoc()): ?>
+            <?php
+            // Standard syntax: if (...) { ... }
+            if ($events->num_rows > 0) {
+                while ($event = $events->fetch_assoc()) {
+                    ?>
                     <tr>
                         <td><?php echo htmlentities($event['judul']); ?></td>
                         <td><?php echo date('d M Y, H:i', strtotime($event['tanggal'])); ?></td>
                         <td><?php echo htmlentities($event['jenis']); ?></td>
                         <td><?php echo htmlentities($event['keterangan']); ?></td>
                     </tr>
-                <?php endwhile; ?>
-            <?php else: ?>
+                <?php
+                } // End while
+            } else {
+                ?>
                 <tr>
                     <td colspan="4">No events scheduled.</td>
                 </tr>
-            <?php endif; ?>
+            <?php
+            } // End if
+            ?>
         </tbody>
     </table>
 
@@ -96,12 +108,17 @@ $members = $stmt_members->get_result();
     <h2>Group Members</h2>
     <div class="member-list-container">
         <ul style="list-style: none; padding: 0;">
-            <?php while ($member = $members->fetch_assoc()): ?>
+            <?php
+            // Standard syntax: while (...) { ... }
+            while ($member = $members->fetch_assoc()) {
+                ?>
                 <li style="padding: 5px 0; border-bottom: 1px solid #eee;">
                     <strong><?php echo htmlentities($member['nama']); ?></strong>
                     <small style="color:#666;">(<?php echo htmlentities($member['nrp']); ?>)</small>
                 </li>
-            <?php endwhile; ?>
+            <?php
+            } // End while
+            ?>
         </ul>
     </div>
 

@@ -45,10 +45,11 @@ $group = $stmt->get_result()->fetch_assoc();
             <?php
             // Initial load of members
             $sql_members = "SELECT m.nrp, m.nama 
-                            FROM member_grup mg 
-                            JOIN mahasiswa m ON mg.username = m.nrp 
-                            WHERE mg.idgrup = ? 
-                            ORDER BY m.nama ASC";
+                FROM member_grup mg 
+                JOIN akun a ON mg.username = a.username 
+                JOIN mahasiswa m ON a.nrp_mahasiswa = m.nrp 
+                WHERE mg.idgrup = ? 
+                ORDER BY m.nama ASC";
             $stmt_members = $mysqli->prepare($sql_members);
             $stmt_members->bind_param("i", $idgrup);
             $stmt_members->execute();

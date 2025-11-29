@@ -292,9 +292,14 @@ hr {
 /* --- Dashboard Grid Layout --- */
 .dashboard-header {
     display: flex;
-    justify_content: space-between;
+    justify-content: space-between;
+    /* Pushes Title left, Buttons right */
     align-items: center;
-    margin-bottom: 20px;
+    /* Vertically centers them */
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    /* Adds a clean separator line */
 }
 
 .group-grid {
@@ -408,4 +413,31 @@ hr {
     text-decoration: none;
     border-radius: 4px;
     font-size: 0.8rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 15px;
+    /* Adds space between "Create Group" and "Logout" */
+}
+
+/* --- Logout Button Styling --- */
+.btn-logout {
+    display: inline-block;
+    background-color: #dc3545;
+    /* Red color to distinguish it */
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    /* Matches the size of your other buttons */
+    border-radius: 5px;
+    /* Matches the rounded corners */
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #c82333;
+    /* Darker red on hover */
+    color: white;
 }

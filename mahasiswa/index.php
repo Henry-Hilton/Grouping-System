@@ -18,7 +18,10 @@ $result = $stmt->get_result();
 <div class="container">
     <div class="dashboard-header">
         <h1>Student Dashboard</h1>
-        <a href="join_group.php" class="btn-add">+ Join New Group</a>
+        <div class="header-actions">
+            <a href="join_group.php" class="btn-add">+ Join New Group</a>
+            <a href="../auth/logout.php" class="btn-logout">Logout</a>
+        </div>
     </div>
 
     <p>Welcome, <strong><?php echo htmlentities($_SESSION['username']); ?></strong>!</p>
@@ -26,8 +29,10 @@ $result = $stmt->get_result();
     <h2 class="section-title">My Groups</h2>
 
     <div class="group-grid">
-        <?php if ($result->num_rows > 0): ?>
-            <?php while ($row = $result->fetch_assoc()): ?>
+        <?php
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                ?>
                 <div class="group-card">
                     <div class="card-header">
                         <h3><?php echo htmlentities($row['nama']); ?></h3>
@@ -41,10 +46,14 @@ $result = $stmt->get_result();
                         <a href="group_details.php?id=<?php echo $row['idgrup']; ?>" class="btn-details">View Group</a>
                     </div>
                 </div>
-            <?php endwhile; ?>
-        <?php else: ?>
+            <?php
+            }
+        } else {
+            ?>
             <p>You haven't joined any groups yet. Click "Join New Group" to get started.</p>
-        <?php endif; ?>
+        <?php
+        }
+        ?>
     </div>
 </div>
 

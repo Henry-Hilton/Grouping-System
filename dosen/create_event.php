@@ -29,10 +29,9 @@ $idgrup = $_GET['idgrup'];
         <div class="form-group">
             <label for="jenis">Event Type</label>
             <select id="jenis" name="jenis" class="form-control" required>
-                <option value="Ujian">Ujian</option>
+                <option value="Rapat">Rapat</option>
                 <option value="Tugas">Tugas</option>
-                <option value="Materi">Materi</option>
-                <option value="Lainnya">Lainnya</option>
+                <option value="Acara">Acara</option>
             </select>
         </div>
 

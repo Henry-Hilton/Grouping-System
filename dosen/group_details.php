@@ -4,12 +4,14 @@ require_once('../partials/check_session.php');
 require_once('../partials/header.php');
 require_once('../db_connect.php');
 
+// 1. Validate ID
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: index.php");
     exit();
 }
 $idgrup = $_GET['id'];
 
+// 2. Fetch Group Details (and verify ownership)
 $sql_group = "SELECT * FROM grup WHERE idgrup = ? AND username_pembuat = ?";
 $stmt_group = $mysqli->prepare($sql_group);
 $stmt_group->bind_param("is", $idgrup, $_SESSION['username']);
@@ -24,6 +26,7 @@ if ($result_group->num_rows === 0) {
 
 $group = $result_group->fetch_assoc();
 
+// 3. Fetch Events
 $sql_events = "SELECT * FROM event WHERE idgrup = ? ORDER BY tanggal DESC";
 $stmt_events = $mysqli->prepare($sql_events);
 $stmt_events->bind_param("i", $idgrup);
@@ -32,7 +35,15 @@ $events = $stmt_events->get_result();
 ?>
 
 <div class="container">
-    <a href="index.php" class="btn-cancel">← Back to Dashboard</a>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <a href="index.php" class="btn-cancel">← Back to Dashboard</a>
+
+        <a href="delete_group.php?id=<?php echo $idgrup; ?>" class="btn-logout"
+            style="background-color: #dc3545; padding: 10px 15px; border-radius: 4px; color: white; text-decoration: none; font-weight: bold;"
+            onclick="return confirm('WARNING: Are you sure? This will delete the group and ALL its events and members.');">
+            Delete Group
+        </a>
+    </div>
 
     <div class="group-header-details">
         <h1><?php echo htmlentities($group['nama']); ?></h1>
@@ -62,23 +73,33 @@ $events = $stmt_events->get_result();
             </tr>
         </thead>
         <tbody>
-            <?php if ($events->num_rows > 0): ?>
-                <?php while ($event = $events->fetch_assoc()): ?>
+            <?php
+            // Using standard curly braces '{'
+            if ($events->num_rows > 0) {
+                while ($event = $events->fetch_assoc()) {
+                    ?>
                     <tr>
                         <td><?php echo htmlentities($event['judul']); ?></td>
                         <td><?php echo date('d M Y, H:i', strtotime($event['tanggal'])); ?></td>
                         <td><?php echo htmlentities($event['jenis']); ?></td>
                         <td><?php echo htmlentities(substr($event['keterangan'], 0, 50)) . '...'; ?></td>
                         <td>
-                            <a href="#" class="btn-edit-small">Edit</a>
+                            <a href="edit_event.php?id=<?php echo $event['idevent']; ?>" class="btn-edit-small">Edit</a>
+                            <a href="delete_event.php?id=<?php echo $event['idevent']; ?>&idgrup=<?php echo $idgrup; ?>"
+                                class="btn-delete" style="padding: 4px 8px; font-size: 0.8rem; margin-left: 5px;"
+                                onclick="return confirm('Delete this event?');">Delete</a>
                         </td>
                     </tr>
-                <?php endwhile; ?>
-            <?php else: ?>
+                    <?php
+                } // End while
+            } else {
+                ?>
                 <tr>
                     <td colspan="5" style="text-align:center;">No events scheduled yet.</td>
                 </tr>
-            <?php endif; ?>
+                <?php
+            } // End if
+            ?>
         </tbody>
     </table>
 

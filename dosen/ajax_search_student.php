@@ -7,7 +7,11 @@ if (isset($_POST['query']) && isset($_POST['idgrup'])) {
 
     $sql = "SELECT nrp, nama FROM mahasiswa 
             WHERE (nama LIKE ? OR nrp LIKE ?) 
-            AND nrp NOT IN (SELECT username FROM member_grup WHERE idgrup = ?)
+            AND nrp NOT IN (
+                SELECT nrp_mahasiswa FROM akun 
+                WHERE username IN (SELECT username FROM member_grup WHERE idgrup = ?)
+                AND nrp_mahasiswa IS NOT NULL
+            )
             LIMIT 5";
 
     $stmt = $mysqli->prepare($sql);
