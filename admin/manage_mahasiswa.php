@@ -23,7 +23,8 @@ require_once('../partials/admin_menu.php');
   <p>Here you can view, add, edit, and delete student records.</p>
   
   <a href="add_mahasiswa.php" class="btn-add">Add New Student</a>
-  
+  <a href="restore_mahasiswa.php" class="btn-add" style="margin-left: 10px;">Deleted Students</a>
+
   <table class="data-table">
     <thead>
         <tr>

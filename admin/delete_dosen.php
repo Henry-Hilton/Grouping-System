@@ -29,17 +29,8 @@ $stmt_delete = $mysqli->prepare($sql_delete);
 $stmt_delete->bind_param("s", $npk);
 
 if ($stmt_delete->execute()) {
-
-    if (!empty($photo_extension)) {
-        $file_path = "../assets/images/dosen/" . $npk . "." . $photo_extension;
-        if (file_exists($file_path)) {
-            unlink($file_path);
-        }
-    }
-
     header("Location: manage_dosen.php?status=success_delete");
     exit();
-
 } else {
     header("Location: manage_dosen.php?status=error_delete");
     exit();

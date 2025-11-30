@@ -23,6 +23,7 @@ require_once('../partials/admin_menu.php');
   <p>Here you can view, add, edit, and delete lecturer records.</p>
   
   <a href="add_dosen.php" class="btn-add">Add New Lecturer</a>
+  <a href="restore_dosen.php" class="btn-add" style="margin-left: 10px;">Deleted Lecturers</a>
   
   <table class="data-table">
     <thead>
