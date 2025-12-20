@@ -449,3 +449,50 @@ hr {
     background-color: #c82333;
     color: white;
 }
+
+.chat-window {
+    background-color: #e5ddd5;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    height: 400px;
+    overflow-y: scroll;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-bubble {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    word-wrap: break-word;
+}
+
+.my-message {
+    align-self: flex-end;
+    background-color: #dcf8c6;
+    text-align: right;
+    border-bottom-right-radius: 0;
+}
+
+.other-message {
+    align-self: flex-start;
+    background-color: #ffffff;
+    text-align: left;
+    border-bottom-left-radius: 0;
+}
+
+.chat-meta {
+    font-size: 0.75rem;
+    color: #999;
+    margin-top: 5px;
+    display: block;
+}
+
+.chat-input-area {
+    display: flex;
+    gap: 10px;
+}
