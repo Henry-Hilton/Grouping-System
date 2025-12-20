@@ -1,5 +1,5 @@
 <?php
-require_once('../db_connect.php');
+require_once('../classes/Database.php');
 
 if (isset($_POST['query']) && isset($_POST['idgrup'])) {
     $search = "%" . $_POST['query'] . "%";

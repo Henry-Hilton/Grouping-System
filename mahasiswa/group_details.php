@@ -2,7 +2,7 @@
 $required_role = 'mahasiswa';
 require_once('../partials/check_session.php');
 require_once('../partials/header.php');
-require_once('../db_connect.php');
+require_once('../classes/Database.php');
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: index.php");
@@ -108,15 +108,14 @@ $members = $stmt_members->get_result();
             <?php
             if ($members->num_rows > 0) {
                 while ($member = $members->fetch_assoc()) {
-                    // Fallback: If no name found (e.g. it's a lecturer), use username
-                    $displayName = !empty($member['nama']) ? htmlspecialchars($member['nama']) : htmlspecialchars($member['username']);
-                    $displayId = !empty($member['nrp']) ? htmlspecialchars($member['nrp']) : 'Lecturer/Admin';
+                    $displayName = !empty($member['nama']) ? htmlentities($member['nama']) : htmlentities($member['username']);
+                    $displayId = !empty($member['nrp']) ? htmlentities($member['nrp']) : 'Lecturer/Admin';
                     ?>
                     <li style="padding: 10px; border-bottom: 1px solid #eee; background: #fff;">
                         <strong><?php echo $displayName; ?></strong>
                         <span style="color:#666; margin-left: 10px;">(<?php echo $displayId; ?>)</span>
                     </li>
-                <?php
+                    <?php
                 }
             } else {
                 echo "<li style='padding:10px;'>No members found.</li>";

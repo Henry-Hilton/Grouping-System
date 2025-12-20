@@ -2,7 +2,7 @@
 $required_role = 'mahasiswa';
 require_once('../partials/check_session.php');
 require_once('../partials/header.php');
-require_once('../db_connect.php');
+require_once('../classes/Database.php');
 
 $nrp = $_SESSION['username'];
 

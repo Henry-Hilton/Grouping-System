@@ -1,7 +1,7 @@
 <?php
 $required_role = 'dosen';
 require_once('../partials/check_session.php');
-require_once('../db_connect.php');
+require_once('../classes/Database.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 

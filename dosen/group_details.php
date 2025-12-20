@@ -2,7 +2,7 @@
 $required_role = 'dosen';
 require_once('../partials/check_session.php');
 require_once('../partials/header.php');
-require_once('../db_connect.php');
+require_once('../classes/Database.php');
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: index.php");
@@ -10,7 +10,6 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 }
 $idgrup = $_GET['id'];
 
-// Check ownership: Only the creator can view/manage this group
 $sql_group = "SELECT * FROM grup WHERE idgrup = ? AND username_pembuat = ?";
 $stmt_group = $mysqli->prepare($sql_group);
 $stmt_group->bind_param("is", $idgrup, $_SESSION['username']);
@@ -25,7 +24,6 @@ if ($result_group->num_rows === 0) {
 
 $group = $result_group->fetch_assoc();
 
-// Fetch Events
 $sql_events = "SELECT * FROM event WHERE idgrup = ? ORDER BY tanggal DESC";
 $stmt_events = $mysqli->prepare($sql_events);
 $stmt_events->bind_param("i", $idgrup);
@@ -51,12 +49,12 @@ $events = $stmt_events->get_result();
     </div>
 
     <div class="group-header-details">
-        <h2><?php echo htmlspecialchars($group['nama']); ?></h2>
-        <span class="badge"><?php echo htmlspecialchars($group['jenis']); ?></span>
-        <p class="group-desc"><?php echo htmlspecialchars($group['deskripsi']); ?></p>
+        <h2><?php echo htmlentities($group['nama']); ?></h2>
+        <span class="badge"><?php echo htmlentities($group['jenis']); ?></span>
+        <p class="group-desc"><?php echo htmlentities($group['deskripsi']); ?></p>
 
         <div class="registration-code-box">
-            Registration Code: <strong><?php echo htmlspecialchars($group['kode_pendaftaran']); ?></strong>
+            Registration Code: <strong><?php echo htmlentities($group['kode_pendaftaran']); ?></strong>
         </div>
     </div>
 
@@ -83,10 +81,10 @@ $events = $stmt_events->get_result();
                 while ($event = $events->fetch_assoc()) {
                     ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($event['judul']); ?></td>
+                        <td><?php echo htmlentities($event['judul']); ?></td>
                         <td><?php echo date('d M Y, H:i', strtotime($event['tanggal'])); ?></td>
-                        <td><?php echo htmlspecialchars($event['jenis']); ?></td>
-                        <td><?php echo htmlspecialchars(substr($event['keterangan'], 0, 50)) . '...'; ?></td>
+                        <td><?php echo htmlentities($event['jenis']); ?></td>
+                        <td><?php echo htmlentities(substr($event['keterangan'], 0, 50)) . '...'; ?></td>
                         <td>
                             <a href="edit_event.php?id=<?php echo $event['idevent']; ?>" class="btn-edit-small">Edit</a>
                             <a href="delete_event.php?id=<?php echo $event['idevent']; ?>&idgrup=<?php echo $idgrup; ?>"

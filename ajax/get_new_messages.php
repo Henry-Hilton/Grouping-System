@@ -1,10 +1,7 @@
 <?php
-// get_new_messages.php
 session_start();
-// Make sure this path to Database.php is correct based on where this file is located!
 require_once 'classes/Database.php';
 
-// Check if user is logged in
 if (!isset($_SESSION['username'])) {
     echo json_encode([]);
     exit;
@@ -31,14 +28,10 @@ if (isset($_POST['idthread'])) {
 
     $chats = [];
     while ($row = $result->fetch_assoc()) {
-        // We add a flag 'is_me' to help the Frontend style the bubbles (Left vs Right)
         $row['is_me'] = ($row['username_pembuat'] == $currentUser);
-        // Format the date nicely
         $row['formatted_time'] = date('d M, H:i', strtotime($row['tanggal_pembuatan']));
         $chats[] = $row;
     }
-
-    // Return data as JSON for the Javascript to process
     echo json_encode($chats);
 }
 ?>

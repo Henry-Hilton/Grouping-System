@@ -1,7 +1,7 @@
 <?php
 $required_role = 'mahasiswa';
 require_once('../partials/check_session.php');
-require_once('../db_connect.php');
+require_once('../classes/Database.php');
 
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $idgrup = $_GET['id'];

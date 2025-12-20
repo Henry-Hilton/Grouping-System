@@ -1,5 +1,5 @@
 <?php
-require_once('../db_connect.php');
+require_once('../classes/Database.php');
 
 if (isset($_GET['npk'])) {
     $npk = $_GET['npk'];
