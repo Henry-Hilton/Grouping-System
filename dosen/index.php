@@ -4,9 +4,11 @@ require_once('../partials/check_session.php');
 require_once('../partials/header.php');
 require_once('../classes/Database.php');
 
+$db = new Database();
+
 $username = $_SESSION['username'];
 $sql = "SELECT * FROM grup WHERE username_pembuat = ? ORDER BY tanggal_pembentukan DESC";
-$stmt = $mysqli->prepare($sql);
+$stmt = $db->prepare($sql);
 $stmt->bind_param("s", $username);
 $stmt->execute();
 $result = $stmt->get_result();

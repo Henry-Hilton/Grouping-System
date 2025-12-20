@@ -1,6 +1,8 @@
 <?php
 require_once('../classes/Database.php');
 
+$db = new Database();
+
 if (isset($_POST['query']) && isset($_POST['idgrup'])) {
     $search = "%" . $_POST['query'] . "%";
     $idgrup = $_POST['idgrup'];
@@ -14,7 +16,7 @@ if (isset($_POST['query']) && isset($_POST['idgrup'])) {
             )
             LIMIT 5";
 
-    $stmt = $mysqli->prepare($sql);
+    $stmt = $db->prepare($sql);
     $stmt->bind_param("ssi", $search, $search, $idgrup);
     $stmt->execute();
     $result = $stmt->get_result();

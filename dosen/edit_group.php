@@ -4,6 +4,8 @@ require_once('../partials/check_session.php');
 require_once('../partials/header.php');
 require_once('../classes/Database.php');
 
+$db = new Database();
+
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: index.php");
     exit();
@@ -13,7 +15,7 @@ $idgrup = $_GET['id'];
 $username = $_SESSION['username'];
 
 $sql = "SELECT * FROM grup WHERE idgrup = ? AND username_pembuat = ?";
-$stmt = $mysqli->prepare($sql);
+$stmt = $db->prepare($sql);
 $stmt->bind_param("is", $idgrup, $username);
 $stmt->execute();
 $result = $stmt->get_result();

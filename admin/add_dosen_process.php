@@ -1,5 +1,7 @@
 <?php
-require_once('.../classes/Database.php');
+require_once('../classes/Database.php');
+
+$db = new Database();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -9,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     $sql_check_npk = "SELECT npk FROM dosen WHERE npk = ?";
-    $stmt_check_npk = $mysqli->prepare($sql_check_npk);
+    $stmt_check_npk = $db->prepare($sql_check_npk);
     $stmt_check_npk->bind_param("s", $npk);
     $stmt_check_npk->execute();
     $result_npk = $stmt_check_npk->get_result();
@@ -20,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $sql_check_user = "SELECT username FROM akun WHERE username = ?";
-    $stmt_check_user = $mysqli->prepare($sql_check_user);
+    $stmt_check_user = $db->prepare($sql_check_user);
     $stmt_check_user->bind_param("s", $username);
     $stmt_check_user->execute();
     $result_user = $stmt_check_user->get_result();
@@ -31,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $sql_insert_dosen = "INSERT INTO dosen (npk, nama) VALUES (?, ?)";
-    $stmt_insert_dosen = $mysqli->prepare($sql_insert_dosen);
+    $stmt_insert_dosen = $db->prepare($sql_insert_dosen);
     $stmt_insert_dosen->bind_param("ss", $npk, $nama);
 
     if ($stmt_insert_dosen->execute()) {
@@ -39,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         $sql_insert_akun = "INSERT INTO akun (username, password, npk_dosen) VALUES (?, ?, ?)";
-        $stmt_insert_akun = $mysqli->prepare($sql_insert_akun);
+        $stmt_insert_akun = $db->prepare($sql_insert_akun);
         $stmt_insert_akun->bind_param("sss", $username, $hashed_password, $npk);
         $stmt_insert_akun->execute();
 
@@ -47,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $photo_extension = strtolower(pathinfo($_FILES["foto"]["name"], PATHINFO_EXTENSION));
 
             $sql_update_photo = "UPDATE dosen SET foto_extension = ? WHERE npk = ?";
-            $stmt_update_photo = $mysqli->prepare($sql_update_photo);
+            $stmt_update_photo = $db->prepare($sql_update_photo);
             $stmt_update_photo->bind_param("ss", $photo_extension, $npk);
             $stmt_update_photo->execute();
 

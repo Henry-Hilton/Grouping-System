@@ -3,13 +3,15 @@ $required_role = 'dosen';
 require_once('../partials/check_session.php');
 require_once('../classes/Database.php');
 
+$db = new Database();
+
 if (isset($_POST['nrp']) && isset($_POST['idgrup'])) {
     $nrp = $_POST['nrp'];
     $idgrup = $_POST['idgrup'];
     $my_username = $_SESSION['username'];
 
     $sql_check = "SELECT idgrup FROM grup WHERE idgrup = ? AND username_pembuat = ?";
-    $stmt_check = $mysqli->prepare($sql_check);
+    $stmt_check = $db->prepare($sql_check);
     $stmt_check->bind_param("is", $idgrup, $my_username);
     $stmt_check->execute();
 
@@ -19,7 +21,7 @@ if (isset($_POST['nrp']) && isset($_POST['idgrup'])) {
     }
 
     $sql_get_user = "SELECT username FROM akun WHERE nrp_mahasiswa = ?";
-    $stmt_get_user = $mysqli->prepare($sql_get_user);
+    $stmt_get_user = $db->prepare($sql_get_user);
     $stmt_get_user->bind_param("s", $nrp);
     $stmt_get_user->execute();
     $res_user = $stmt_get_user->get_result();
@@ -33,7 +35,7 @@ if (isset($_POST['nrp']) && isset($_POST['idgrup'])) {
     $student_username = $row_user['username'];
 
     $sql = "INSERT INTO member_grup (idgrup, username) VALUES (?, ?)";
-    $stmt = $mysqli->prepare($sql);
+    $stmt = $db->prepare($sql);
     $stmt->bind_param("is", $idgrup, $student_username);
 
     if ($stmt->execute()) {

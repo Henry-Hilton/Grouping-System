@@ -5,6 +5,7 @@ require_once('../classes/Database.php');
 require_once('../partials/header.php');
 require_once('../partials/admin_menu.php');
 
+$db = new Database();
 
 if (!isset($_GET['nrp'])) {
   header("Location: manage_mahasiswa.php");
@@ -13,14 +14,12 @@ if (!isset($_GET['nrp'])) {
 
 $nrp = $_GET['nrp'];
 
-
 $sql = "SELECT * FROM mahasiswa WHERE nrp = ?";
-$stmt = $mysqli->prepare($sql);
+$stmt = $db->prepare($sql);
 $stmt->bind_param("s", $nrp);
 $stmt->execute();
 $result = $stmt->get_result();
 $mahasiswa = $result->fetch_assoc();
-
 
 if (!$mahasiswa) {
   header("Location: manage_mahasiswa.php");

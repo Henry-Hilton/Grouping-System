@@ -4,6 +4,8 @@ require_once('../partials/check_session.php');
 require_once('../partials/header.php');
 require_once('../classes/Database.php');
 
+$db = new Database();
+
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: index.php");
     exit();
@@ -11,7 +13,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 $idgrup = $_GET['id'];
 
 $sql_group = "SELECT * FROM grup WHERE idgrup = ? AND username_pembuat = ?";
-$stmt_group = $mysqli->prepare($sql_group);
+$stmt_group = $db->prepare($sql_group);
 $stmt_group->bind_param("is", $idgrup, $_SESSION['username']);
 $stmt_group->execute();
 $result_group = $stmt_group->get_result();
@@ -25,7 +27,7 @@ if ($result_group->num_rows === 0) {
 $group = $result_group->fetch_assoc();
 
 $sql_events = "SELECT * FROM event WHERE idgrup = ? ORDER BY tanggal DESC";
-$stmt_events = $mysqli->prepare($sql_events);
+$stmt_events = $db->prepare($sql_events);
 $stmt_events->bind_param("i", $idgrup);
 $stmt_events->execute();
 $events = $stmt_events->get_result();
@@ -39,6 +41,9 @@ $events = $stmt_events->get_result();
         </div>
 
         <div class="header-actions">
+            <a href="../group_threads.php?id=<?php echo $idgrup; ?>" class="btn-submit"
+                style="background-color: #28a745;">💬 Discussion Threads</a>
+
             <a href="edit_group.php?id=<?php echo $idgrup; ?>" class="btn-edit">Edit Group</a>
 
             <a href="delete_group.php?id=<?php echo $idgrup; ?>" class="btn-delete"

@@ -3,12 +3,14 @@ $required_role = 'mahasiswa';
 require_once('../partials/check_session.php');
 require_once('../classes/Database.php');
 
+$db = new Database();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $kode = htmlentities($_POST['kode']);
     $nrp = $_SESSION['username'];
 
     $sql_find = "SELECT idgrup FROM grup WHERE kode_pendaftaran = ?";
-    $stmt_find = $mysqli->prepare($sql_find);
+    $stmt_find = $db->prepare($sql_find);
     $stmt_find->bind_param("s", $kode);
     $stmt_find->execute();
     $result_find = $stmt_find->get_result();
@@ -22,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $idgrup = $group['idgrup'];
 
     $sql_check = "SELECT * FROM member_grup WHERE idgrup = ? AND username = ?";
-    $stmt_check = $mysqli->prepare($sql_check);
+    $stmt_check = $db->prepare($sql_check);
     $stmt_check->bind_param("is", $idgrup, $nrp);
     $stmt_check->execute();
 
@@ -32,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $sql_join = "INSERT INTO member_grup (idgrup, username) VALUES (?, ?)";
-    $stmt_join = $mysqli->prepare($sql_join);
+    $stmt_join = $db->prepare($sql_join);
     $stmt_join->bind_param("is", $idgrup, $nrp);
 
     if ($stmt_join->execute()) {

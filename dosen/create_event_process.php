@@ -3,6 +3,8 @@ $required_role = 'dosen';
 require_once('../partials/check_session.php');
 require_once('../classes/Database.php');
 
+$db = new Database();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $idgrup = htmlentities($_POST['idgrup']);
@@ -12,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $keterangan = htmlentities($_POST['keterangan']);
 
     $sql_check_title = "SELECT idevent FROM event WHERE idgrup = ? AND judul = ?";
-    $stmt_title = $mysqli->prepare($sql_check_title);
+    $stmt_title = $db->prepare($sql_check_title);
     $stmt_title->bind_param("is", $idgrup, $judul);
     $stmt_title->execute();
 
@@ -24,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $formatted_date = date('Y-m-d H:i:s', strtotime($tanggal));
 
     $sql_check_date = "SELECT idevent FROM event WHERE idgrup = ? AND tanggal = ?";
-    $stmt_date = $mysqli->prepare($sql_check_date);
+    $stmt_date = $db->prepare($sql_check_date);
     $stmt_date->bind_param("is", $idgrup, $formatted_date);
     $stmt_date->execute();
 
@@ -34,14 +36,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $sql = "INSERT INTO event (idgrup, judul, tanggal, jenis, keterangan) VALUES (?, ?, ?, ?, ?)";
-    $stmt = $mysqli->prepare($sql);
+    $stmt = $db->prepare($sql);
     $stmt->bind_param("issss", $idgrup, $judul, $tanggal, $jenis, $keterangan);
 
     if ($stmt->execute()) {
         header("Location: group_details.php?id=" . $idgrup . "&status=event_added");
         exit();
     } else {
-        echo "Error: " . $mysqli->error;
+        echo "Error: " . $db->mysqli->error;
     }
 }
 ?>

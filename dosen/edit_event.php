@@ -4,6 +4,8 @@ require_once('../partials/check_session.php');
 require_once('../partials/header.php');
 require_once('../classes/Database.php');
 
+$db = new Database();
+
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: index.php");
     exit();
@@ -11,7 +13,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 $idevent = $_GET['id'];
 
 $sql = "SELECT * FROM event WHERE idevent = ?";
-$stmt = $mysqli->prepare($sql);
+$stmt = $db->prepare($sql);
 $stmt->bind_param("i", $idevent);
 $stmt->execute();
 $result = $stmt->get_result();

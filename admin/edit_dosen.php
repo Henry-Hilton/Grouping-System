@@ -2,6 +2,8 @@
 require_once('../partials/header.php');
 require_once('../classes/Database.php');
 
+$db = new Database();
+
 if (!isset($_GET['npk'])) {
   header("Location: manage_dosen.php");
   exit();
@@ -10,7 +12,7 @@ if (!isset($_GET['npk'])) {
 $npk = $_GET['npk'];
 
 $sql = "SELECT * FROM dosen WHERE npk = ?";
-$stmt = $mysqli->prepare($sql);
+$stmt = $db->prepare($sql);
 $stmt->bind_param("s", $npk);
 $stmt->execute();
 $result = $stmt->get_result();

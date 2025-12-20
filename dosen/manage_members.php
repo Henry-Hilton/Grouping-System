@@ -4,6 +4,8 @@ require_once('../partials/check_session.php');
 require_once('../partials/header.php');
 require_once('../classes/Database.php');
 
+$db = new Database();
+
 if (!isset($_GET['id'])) {
     header("Location: index.php");
     exit();
@@ -11,7 +13,7 @@ if (!isset($_GET['id'])) {
 $idgrup = $_GET['id'];
 
 $sql = "SELECT nama FROM grup WHERE idgrup = ?";
-$stmt = $mysqli->prepare($sql);
+$stmt = $db->prepare($sql);
 $stmt->bind_param("i", $idgrup);
 $stmt->execute();
 $group = $stmt->get_result()->fetch_assoc();
@@ -48,7 +50,8 @@ $group = $stmt->get_result()->fetch_assoc();
                 JOIN mahasiswa m ON a.nrp_mahasiswa = m.nrp 
                 WHERE mg.idgrup = ? 
                 ORDER BY m.nama ASC";
-            $stmt_members = $mysqli->prepare($sql_members);
+
+            $stmt_members = $db->prepare($sql_members);
             $stmt_members->bind_param("i", $idgrup);
             $stmt_members->execute();
             $result_members = $stmt_members->get_result();

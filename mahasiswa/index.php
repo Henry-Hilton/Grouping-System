@@ -4,13 +4,16 @@ require_once('../partials/check_session.php');
 require_once('../partials/header.php');
 require_once('../classes/Database.php');
 
+$db = new Database();
+
 $nrp = $_SESSION['username'];
 
 $sql_my = "SELECT g.* FROM grup g 
            JOIN member_grup mg ON g.idgrup = mg.idgrup 
            WHERE mg.username = ? 
            ORDER BY g.tanggal_pembentukan DESC";
-$stmt_my = $mysqli->prepare($sql_my);
+
+$stmt_my = $db->prepare($sql_my);
 $stmt_my->bind_param("s", $nrp);
 $stmt_my->execute();
 $result_my = $stmt_my->get_result();
@@ -19,7 +22,8 @@ $sql_avail = "SELECT * FROM grup
               WHERE idgrup NOT IN (SELECT idgrup FROM member_grup WHERE username = ?) 
               AND jenis = 'Publik' 
               ORDER BY nama ASC";
-$stmt_avail = $mysqli->prepare($sql_avail);
+
+$stmt_avail = $db->prepare($sql_avail);
 $stmt_avail->bind_param("s", $nrp);
 $stmt_avail->execute();
 $result_avail = $stmt_avail->get_result();

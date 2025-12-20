@@ -4,6 +4,8 @@ require_once('../partials/check_session.php');
 require_once('../partials/header.php');
 require_once('../classes/Database.php');
 
+$db = new Database();
+
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: index.php");
     exit();
@@ -12,7 +14,7 @@ $idgrup = $_GET['id'];
 $nrp = $_SESSION['username'];
 
 $sql_check = "SELECT * FROM member_grup WHERE idgrup = ? AND username = ?";
-$stmt_check = $mysqli->prepare($sql_check);
+$stmt_check = $db->prepare($sql_check);
 $stmt_check->bind_param("is", $idgrup, $nrp);
 $stmt_check->execute();
 if ($stmt_check->get_result()->num_rows === 0) {
@@ -22,13 +24,13 @@ if ($stmt_check->get_result()->num_rows === 0) {
 }
 
 $sql_group = "SELECT * FROM grup WHERE idgrup = ?";
-$stmt_group = $mysqli->prepare($sql_group);
+$stmt_group = $db->prepare($sql_group);
 $stmt_group->bind_param("i", $idgrup);
 $stmt_group->execute();
 $group = $stmt_group->get_result()->fetch_assoc();
 
 $sql_events = "SELECT * FROM event WHERE idgrup = ? ORDER BY tanggal DESC";
-$stmt_events = $mysqli->prepare($sql_events);
+$stmt_events = $db->prepare($sql_events);
 $stmt_events->bind_param("i", $idgrup);
 $stmt_events->execute();
 $events = $stmt_events->get_result();
@@ -39,7 +41,7 @@ $sql_members = "SELECT mg.username, m.nrp, m.nama
                 LEFT JOIN mahasiswa m ON a.nrp_mahasiswa = m.nrp 
                 WHERE mg.idgrup = ? 
                 ORDER BY mg.username ASC";
-$stmt_members = $mysqli->prepare($sql_members);
+$stmt_members = $db->prepare($sql_members);
 $stmt_members->bind_param("i", $idgrup);
 $stmt_members->execute();
 $members = $stmt_members->get_result();
@@ -55,7 +57,10 @@ $members = $stmt_members->get_result();
             <p class="group-desc"><?php echo htmlentities($group['deskripsi']); ?></p>
             <p><small>Created by: <?php echo htmlentities($group['username_pembuat']); ?></small></p>
         </div>
-        <div>
+        <div style="display: flex; gap: 10px; align-items: flex-start;">
+            <a href="../group_threads.php?id=<?php echo $idgrup; ?>" class="btn-submit"
+                style="background-color: #28a745;">💬 Discussion Threads</a>
+
             <a href="leave_group.php?id=<?php echo $idgrup; ?>" class="btn-delete"
                 onclick="return confirm('Are you sure you want to leave this group?');">
                 Leave Group

@@ -3,6 +3,8 @@ $required_role = 'dosen';
 require_once('../partials/check_session.php');
 require_once('../classes/Database.php');
 
+$db = new Database();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $nama = htmlentities($_POST['nama']);
@@ -12,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username_pembuat = $_SESSION['username'];
 
     $sql_check_name = "SELECT idgrup FROM grup WHERE nama = ?";
-    $stmt_name = $mysqli->prepare($sql_check_name);
+    $stmt_name = $db->prepare($sql_check_name);
     $stmt_name->bind_param("s", $nama);
     $stmt_name->execute();
     if ($stmt_name->get_result()->num_rows > 0) {
@@ -27,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $kode_pendaftaran = strtoupper(substr(md5(time() . rand()), 0, 6));
 
         $sql_check_code = "SELECT idgrup FROM grup WHERE kode_pendaftaran = ?";
-        $stmt_code = $mysqli->prepare($sql_check_code);
+        $stmt_code = $db->prepare($sql_check_code);
         $stmt_code->bind_param("s", $kode_pendaftaran);
         $stmt_code->execute();
 
@@ -41,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO grup (username_pembuat, nama, deskripsi, tanggal_pembentukan, jenis, kode_pendaftaran) 
             VALUES (?, ?, ?, ?, ?, ?)";
 
-    $stmt = $mysqli->prepare($sql);
+    $stmt = $db->prepare($sql);
     $stmt->bind_param("ssssss", $username_pembuat, $nama, $deskripsi, $tanggal_pembentukan, $jenis, $kode_pendaftaran);
 
     if ($stmt->execute()) {

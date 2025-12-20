@@ -2,6 +2,9 @@
 $required_role = 'admin';
 require_once('../partials/check_session.php');
 require_once('../classes/Database.php');
+
+$db = new Database();
+
 require_once('../partials/header.php');
 require_once('../partials/admin_menu.php');
 ?>
