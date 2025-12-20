@@ -33,9 +33,12 @@ $stmt_events->bind_param("i", $idgrup);
 $stmt_events->execute();
 $events = $stmt_events->get_result();
 
-$sql_members = "SELECT m.nrp, m.nama FROM member_grup mg 
-                JOIN mahasiswa m ON mg.username = m.nrp 
-                WHERE mg.idgrup = ? ORDER BY m.nama ASC";
+$sql_members = "SELECT mg.username, m.nrp, m.nama 
+                FROM member_grup mg 
+                LEFT JOIN akun a ON mg.username = a.username 
+                LEFT JOIN mahasiswa m ON a.nrp_mahasiswa = m.nrp 
+                WHERE mg.idgrup = ? 
+                ORDER BY mg.username ASC";
 $stmt_members = $mysqli->prepare($sql_members);
 $stmt_members->bind_param("i", $idgrup);
 $stmt_members->execute();
@@ -103,13 +106,20 @@ $members = $stmt_members->get_result();
     <div class="member-list-container">
         <ul style="list-style: none; padding: 0;">
             <?php
-            while ($member = $members->fetch_assoc()) {
-                ?>
-                <li style="padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <strong><?php echo htmlentities($member['nama']); ?></strong>
-                    <small style="color:#666;">(<?php echo htmlentities($member['nrp']); ?>)</small>
-                </li>
+            if ($members->num_rows > 0) {
+                while ($member = $members->fetch_assoc()) {
+                    // Fallback: If no name found (e.g. it's a lecturer), use username
+                    $displayName = !empty($member['nama']) ? htmlspecialchars($member['nama']) : htmlspecialchars($member['username']);
+                    $displayId = !empty($member['nrp']) ? htmlspecialchars($member['nrp']) : 'Lecturer/Admin';
+                    ?>
+                    <li style="padding: 10px; border-bottom: 1px solid #eee; background: #fff;">
+                        <strong><?php echo $displayName; ?></strong>
+                        <span style="color:#666; margin-left: 10px;">(<?php echo $displayId; ?>)</span>
+                    </li>
                 <?php
+                }
+            } else {
+                echo "<li style='padding:10px;'>No members found.</li>";
             }
             ?>
         </ul>
