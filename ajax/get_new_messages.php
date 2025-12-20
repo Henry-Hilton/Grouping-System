@@ -1,6 +1,11 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start();
-require_once 'classes/Database.php';
+header('Content-Type: application/json');
+
+require_once '../classes/Database.php';
 
 if (!isset($_SESSION['username'])) {
     echo json_encode([]);
@@ -22,16 +27,25 @@ if (isset($_POST['idthread'])) {
             ORDER BY c.tanggal_pembuatan ASC";
 
     $stmt = $db->prepare($sql);
-    $stmt->bind_param("i", $idthread);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    if ($stmt) {
+        $stmt->bind_param("i", $idthread);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $chats = [];
 
-    $chats = [];
-    while ($row = $result->fetch_assoc()) {
-        $row['is_me'] = ($row['username_pembuat'] == $currentUser);
-        $row['formatted_time'] = date('d M, H:i', strtotime($row['tanggal_pembuatan']));
-        $chats[] = $row;
+        while ($row = $result->fetch_assoc()) {
+            $chats[] = [
+                'is_me' => ($row['username_pembuat'] === $currentUser),
+                'sender_name' => htmlentities($row['sender_name']),
+                'isi' => nl2br(htmlentities($row['isi'])),
+                'formatted_time' => date('H:i', strtotime($row['tanggal_pembuatan']))
+            ];
+        }
+        echo json_encode($chats);
+    } else {
+        echo json_encode([]);
     }
-    echo json_encode($chats);
+} else {
+    echo json_encode([]);
 }
 ?>

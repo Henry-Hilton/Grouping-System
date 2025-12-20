@@ -88,70 +88,97 @@ $backLink = "group_threads.php?id=" . $thread['idgrup'];
     </div>
 
     <script>
-        var currentThreadId = <?php echo $idthread; ?>;
-        var userScrolled = false;
+        $(document).ready(function () {
+            console.log("Chat initialized");
 
-        $('#chat-box').scroll(function () {
-            if ($('#chat-box').scrollTop() + $('#chat-box').innerHeight() >= $('#chat-box')[0].scrollHeight) {
-                userScrolled = false;
-            } else {
-                userScrolled = true;
-            }
-        });
+            var currentThreadId = <?php echo $idthread; ?>;
+            var userScrolled = false;
 
-        function loadChat() {
-            $.ajax({
-                url: 'get_new_messages.php',
-                method: 'POST',
-                data: { idthread: currentThreadId },
-                dataType: 'json',
-                success: function (data) {
-                    var html = '';
-                    if (data.length === 0) {
-                        html = '<p style="text-align:center; color:#999; margin-top:20px;">No messages yet. Start the conversation!</p>';
-                    } else {
-                        $.each(data, function (index, chat) {
-                            var bubbleClass = chat.is_me ? 'my-message' : 'other-message';
-                            var nameDisplay = chat.is_me ? 'You' : chat.sender_name;
-
-                            html += '<div class="chat-bubble ' + bubbleClass + '">';
-                            html += '<strong>' + nameDisplay + '</strong><br>';
-                            html += chat.isi;
-                            html += '<span class="chat-meta">' + chat.formatted_time + '</span>';
-                            html += '</div>';
-                        });
-                    }
-
-                    $('#chat-box').html(html);
-
-                    if (!userScrolled) {
-                        $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
-                    }
+            // Detect Scroll
+            $('#chat-box').scroll(function () {
+                if ($('#chat-box').scrollTop() + $('#chat-box').innerHeight() >= $('#chat-box')[0].scrollHeight - 10) {
+                    userScrolled = false;
+                } else {
+                    userScrolled = true;
                 }
             });
-        }
 
-        $('#btn-send').click(function () {
-            var msg = $('#chat-input').val();
-            if (msg.trim() !== '') {
-                $.post('post_chat_messages.php', {
-                    message: msg,
-                    idthread: currentThreadId
-                }, function (response) {
-                    if (response === 'success') {
-                        $('#chat-input').val('');
-                        loadChat();
-                        userScrolled = false;
-                    } else {
-                        alert('Error sending message');
+            // LOAD CHAT (Uses PLURAL filename)
+            function loadChat() {
+                $.ajax({
+                    // CHECK THIS: It must match your file name 'get_new_messages.php'
+                    url: 'ajax/get_new_messages.php',
+                    method: 'POST',
+                    data: { idthread: currentThreadId },
+                    dataType: 'json',
+                    success: function (data) {
+                        var html = '';
+                        if (data.length === 0) {
+                            html = '<p style="text-align:center; color:#999; margin-top:20px;">No messages yet.</p>';
+                        } else {
+                            $.each(data, function (index, chat) {
+                                var bubbleClass = chat.is_me ? 'my-message' : 'other-message';
+                                var nameDisplay = chat.is_me ? 'You' : chat.sender_name;
+                                html += '<div class="chat-bubble ' + bubbleClass + '">';
+                                html += '<strong>' + nameDisplay + '</strong><br>';
+                                html += chat.isi;
+                                html += '<span class="chat-meta">' + chat.formatted_time + '</span>';
+                                html += '</div>';
+                            });
+                        }
+                        $('#chat-box').html(html);
+                        if (!userScrolled) {
+                            $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // This logs the 404 if the name is still wrong
+                        console.error("Load Chat Error:", xhr.status, xhr.statusText);
+                        console.error("Trying to find: ajax/get_new_messages.php");
                     }
                 });
             }
-        });
-        loadChat();
-        setInterval(loadChat, 2000);
-    </script>
 
+            // SEND MESSAGE (Uses SINGULAR filename)
+            function sendMessage() {
+                var msg = $('#chat-input').val();
+                if (msg.trim() !== '') {
+                    // CHECK THIS: It must match your file name 'post_chat_message.php'
+                    $.post('ajax/post_chat_message.php', {
+                        message: msg,
+                        idthread: currentThreadId
+                    }, function (response) {
+                        if (response.trim() === 'success') {
+                            $('#chat-input').val('');
+                            loadChat();
+                            userScrolled = false;
+                        } else {
+                            alert('Error sending message: ' + response);
+                        }
+                    }).fail(function () {
+                        alert("Error: Could not find ajax/post_chat_message.php");
+                    });
+                }
+            }
+
+            // Event Listeners
+            $('#btn-send').click(function (e) {
+                e.preventDefault();
+                sendMessage();
+            });
+
+            $('#chat-input').keypress(function (e) {
+                if (e.which == 13 && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            // Start
+            loadChat();
+            setInterval(loadChat, 2000);
+        });
+    </script>
 </body>
 
 </html>

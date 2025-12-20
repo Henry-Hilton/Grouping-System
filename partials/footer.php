@@ -3,21 +3,17 @@
   <p>&copy; 2025 Grouping System</p>
 </footer>
 </div>
+
 <script src="../assets/js/jquery.min.js"></script>
 <script src="../assets/js/script.js"></script>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const toggleBtn = document.getElementById('darkModeBtn');
+    const toggleCheckbox = document.getElementById('darkModeToggle');
     const body = document.body;
 
-    if (localStorage.getItem('theme') === 'dark') {
-      body.classList.add('dark-mode');
-    }
-
-    if (toggleBtn) {
-      toggleBtn.addEventListener('click', function (e) {
-        e.preventDefault();
+    if (toggleCheckbox) {
+      toggleCheckbox.addEventListener('change', function () {
 
         body.classList.toggle('dark-mode');
 
