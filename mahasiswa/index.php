@@ -3,6 +3,7 @@ $required_role = 'mahasiswa';
 require_once('../partials/check_session.php');
 require_once('../partials/header.php');
 require_once('../classes/Database.php');
+require_once('../partials/mahasiswa_menu.php');
 
 $db = new Database();
 
@@ -34,7 +35,6 @@ $result_avail = $stmt_avail->get_result();
         <h1>Student Dashboard</h1>
         <div class="header-actions">
             <a href="join_group.php" class="btn-add">+ Join New Group</a>
-            <a href="../auth/logout.php" class="btn-logout">Logout</a>
         </div>
     </div>
 

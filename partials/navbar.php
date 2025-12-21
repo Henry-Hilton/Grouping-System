@@ -6,12 +6,12 @@
             <li><a href="../admin/manage_dosen.php">Manage Lecturers</a></li>
             <li><a href="../admin/manage_mahasiswa.php">Manage Students</a></li>
 
-        <?php
+            <?php
         elseif (isset($_SESSION['npk_dosen']) && $_SESSION['npk_dosen']): ?>
             <li><a href="../dosen/index.php">Dashboard</a></li>
             <li><a href="../dosen/manage_groups.php">My Groups</a></li>
 
-        <?php
+            <?php
         elseif (isset($_SESSION['nrp_mahasiswa']) && $_SESSION['nrp_mahasiswa']): ?>
             <li><a href="../mahasiswa/index.php">Dashboard</a></li>
             <li><a href="../mahasiswa/join_group.php">Join Group</a></li>

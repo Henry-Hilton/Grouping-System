@@ -3,6 +3,7 @@ $required_role = 'dosen';
 require_once('../partials/check_session.php');
 require_once('../partials/header.php');
 require_once('../classes/Database.php');
+require_once('../partials/dosen_menu.php');
 
 $db = new Database();
 
@@ -19,7 +20,6 @@ $result = $stmt->get_result();
         <h1>Lecturer Dashboard</h1>
         <div class="header-actions">
             <a href="create_group.php" class="btn-add">+ Create New Group</a>
-            <a href="../auth/logout.php" class="btn-logout">Logout</a>
         </div>
     </div>
 
