@@ -82,7 +82,7 @@ if (isset($_SESSION['npk_dosen'])) {
                     </div>
 
                     <div class="card-body">
-                        <p>Started by: <strong><?php echo htmlspecialchars($row['creator_name']); ?></strong></p>
+                        <p>Started by: <strong><?php echo htmlentities($row['creator_name']); ?></strong></p>
                         <p><small>Date: <?php echo date('d M Y, H:i', strtotime($row['tanggal_pembuatan'])); ?></small></p>
                     </div>
 
