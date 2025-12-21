@@ -32,10 +32,3 @@
         </div>
     </div>
 </nav>
-
-<script>
-    if (localStorage.getItem('theme') === 'dark') {
-        const toggle = document.getElementById('darkModeToggle');
-        if (toggle) toggle.checked = true;
-    }
-</script>
