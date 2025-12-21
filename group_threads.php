@@ -2,8 +2,11 @@
 session_start();
 require_once 'classes/Database.php';
 
+$path = '';
+require_once 'partials/header.php';
+
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    header("Location: index.php");
+    echo "<script>window.location.href='index.php';</script>";
     exit();
 }
 
@@ -19,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['new_thread_title'])) 
 
     if ($stmt->execute()) {
         $newThreadId = $stmt->insert_id;
-        header("Location: group_chat.php?id=" . $newThreadId);
+        echo "<script>window.location.href='group_chat.php?id=" . $newThreadId . "';</script>";
         exit();
     }
 }
@@ -36,91 +39,74 @@ $stmt->bind_param("i", $idgrup);
 $stmt->execute();
 $threads = $stmt->get_result();
 
-$role = isset($_SESSION['role']) ? $_SESSION['role'] : 'mahasiswa';
-if ($role == 'dosen') {
+if (isset($_SESSION['npk_dosen'])) {
     $backLink = 'dosen/group_details.php?id=' . $idgrup;
 } else {
     $backLink = 'mahasiswa/group_details.php?id=' . $idgrup;
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Discussions</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
-
-<body>
-
-    <div class="container">
-        <div class="dashboard-header">
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <a href="<?php echo $backLink; ?>" class="btn-cancel">← Back to Group</a>
-                <h1 style="margin: 0;">Discussion Threads</h1>
-            </div>
+<div class="container">
+    <div class="dashboard-header" style="margin-top: 40px; border-bottom: 2px solid #eee; padding-bottom: 20px;">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <a href="<?php echo $backLink; ?>" class="btn-cancel">← Back to Group</a>
+            <h1 style="margin: 0;">Discussion Threads</h1>
         </div>
+    </div>
 
-        <div class="card"
-            style="margin-bottom: 20px; padding: 20px; background: #f8f9fa; border-radius: 8px; border: 1px solid #ddd;">
+    <div class="group-card" style="margin-bottom: 30px; margin-top: 20px;">
+        <div class="card-header">
             <h3>Start a New Discussion</h3>
+        </div>
+        <div class="card-body">
+            <p>Click below to start a new thread. You can start chatting immediately.</p>
             <form method="POST" action="">
-                <p>Click below to start a new thread. You can start chatting immediately.</p>
                 <input type="hidden" name="new_thread_title" value="New Thread">
                 <button type="submit" class="btn-add">Create New Thread</button>
             </form>
         </div>
-
-        <div class="thread-list">
-            <?php
-            if ($threads->num_rows > 0) {
-                while ($row = $threads->fetch_assoc()) {
-                    ?>
-                    <div class="group-card" style="margin-bottom: 15px;">
-                        <div class="card-header">
-                            <h3>Thread #<?php echo $row['idthread']; ?></h3>
-                            <?php
-                            $badgeColor = ($row['status'] == 'Open') ? '#28a745' : '#6c757d';
-                            ?>
-                            <span class="badge" style="background-color: <?php echo $badgeColor; ?>">
-                                <?php echo $row['status']; ?>
-                            </span>
-                        </div>
-
-                        <div class="card-body">
-                            <p>Started by: <strong><?php echo htmlspecialchars($row['creator_name']); ?></strong></p>
-                            <p><small>Date: <?php echo date('d M Y, H:i', strtotime($row['tanggal_pembuatan'])); ?></small></p>
-                        </div>
-
-                        <div class="card-footer">
-                            <a href="group_chat.php?id=<?php echo $row['idthread']; ?>" class="btn-details">
-                                <?php
-                                if ($row['status'] == 'Open') {
-                                    echo "Join Chat";
-                                } else {
-                                    echo "View History";
-                                }
-                                ?>
-                            </a>
-                        </div>
-                    </div>
-                <?php
-                }
-            } else {
-                ?>
-                <div style="text-align: center; padding: 40px; color: #666;">
-                    <p>No discussions yet. Be the first to start one!</p>
-                </div>
-            <?php
-            }
-            ?>
-        </div>
-
     </div>
 
-</body>
+    <div class="group-grid">
+        <?php
+        if ($threads->num_rows > 0) {
+            while ($row = $threads->fetch_assoc()) {
+                ?>
+                <div class="group-card">
+                    <div class="card-header">
+                        <h3>Thread #<?php echo $row['idthread']; ?></h3>
+                        <?php $badgeColor = ($row['status'] == 'Open') ? '#28a745' : '#6c757d'; ?>
+                        <span class="badge" style="background-color: <?php echo $badgeColor; ?>">
+                            <?php echo $row['status']; ?>
+                        </span>
+                    </div>
 
-</html>
+                    <div class="card-body">
+                        <p>Started by: <strong><?php echo htmlspecialchars($row['creator_name']); ?></strong></p>
+                        <p><small>Date: <?php echo date('d M Y, H:i', strtotime($row['tanggal_pembuatan'])); ?></small></p>
+                    </div>
+
+                    <div class="card-footer">
+                        <a href="group_chat.php?id=<?php echo $row['idthread']; ?>" class="btn-details">
+                            <?php echo ($row['status'] == 'Open') ? "Join Chat" : "View History"; ?>
+                        </a>
+                    </div>
+                </div>
+                <?php
+            }
+        } else {
+            ?>
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
+                <p>No discussions yet. Be the first to start one!</p>
+            </div>
+            <?php
+        }
+        ?>
+    </div>
+</div>
+
+<?php
+if (file_exists('partials/footer.php')) {
+    require_once 'partials/footer.php';
+}
+?>
